@@ -17,9 +17,15 @@ Repositório criado por:
 - Redes biológicas
 - Genome assembly
 
-Este repositório foi criado no ambito da UC Algoritmos Avançados para a Bioinformática (2023/24), do Mestrado em Bioinformática da Escola de Engenharia da Universidade do Minho, e tem como objetivo reunir os scripts utilizados ao longo da realização do trabalho, 
-bem como para armazenamento dos resultados produzidos por cada script. Neste trabalho foi desenvolvido código para a utilização sistemática da ferramenta BioPython e respetivos módulos para a análise e exploração do papel biológico de cada gene.
-A análise dos resultados encontra-se no padlet criado pelo grupo.
+Este repositório foi criado no ambito da UC Algoritmos Avançados para a Bioinformática (2023/24), do Mestrado em Bioinformática da Escola de Engenharia da Universidade do Minho, e tem como objetivo reunir os scripts e notebooks utilizados ao longo da realização do trabalho. 
+Este repositório destaca-se 
 
 **Link para o GitHub do grupo**
 - [Repositório](https://github.com/duartebred/Algoritmos-Avancados-para-a-Bioinformatica-GX-MBI2023-24)
+
+
+• Documentação
+• Type hinting
+• Unit tests
+• Assinalar todas as fontes onde se foi buscar código
+• Será avaliada a originalidade e a autoria do código escrito
