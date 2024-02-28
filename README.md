@@ -9,14 +9,13 @@ Repositório criado por:
 - [Ricardo Oliveira](https://github.com/ricardofoliveira61) (pg53501)
 
 **Algoritmos construidos**
-- Motifs
-- Algoritmos evolucionários
-- Procura de Padrões
-- Árvores
-- BWT
+- Motifs: Gibbs sampling
+- Computação evolucionária
+- Procura de padrões: Autómatos finitos; Tries; Árvores de sufixos
+- Alinhamentos contra referências (BWTs)
 - Grafos
-- Assembly
-- HMMs
+- Redes biológicas
+- Genome assembly
 
 Este repositório foi criado no ambito da UC Algoritmos Avançados para a Bioinformática (2023/24), do Mestrado em Bioinformática da Escola de Engenharia da Universidade do Minho, e tem como objetivo reunir os scripts utilizados ao longo da realização do trabalho, 
 bem como para armazenamento dos resultados produzidos por cada script. Neste trabalho foi desenvolvido código para a utilização sistemática da ferramenta BioPython e respetivos módulos para a análise e exploração do papel biológico de cada gene.
