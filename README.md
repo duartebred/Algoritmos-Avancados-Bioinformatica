@@ -19,4 +19,4 @@ bem como para armazenamento dos resultados produzidos por cada script. Neste tra
 A análise dos resultados encontra-se no padlet criado pelo grupo.
 
 **Link para o GitHub do grupo**
-- [Padlet](https://padlet.com/duartealvesvelho/laborat-rios-de-bioinform-tica-d141frkn4vb9fxxo)
+- [Padlet](https://github.com/duartebred/Algoritmos-Avancados-para-a-Bioinformatica-GX-MBI2023-24)
