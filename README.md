@@ -8,11 +8,15 @@ Repositório criado por:
 - [João Ferreira](https://github.com/B-Neil) (pg52182)
 - [Ricardo Oliveira](https://github.com/ricardofoliveira61) (pg53501)
 
-**Genes analisados**
-- ABCB11
-- COG7
-- EMCN
-- ITIH5L (ITIH6)
+**Algoritmos construidos**
+- Motifs
+- Algoritmos evolucionários
+- Procura de Padrões
+- Árvores
+- BWT
+- Grafos
+- Assembly
+- HMMs
 
 Este repositório foi criado no ambito da UC Algoritmos Avançados para a Bioinformática (2023/24), do Mestrado em Bioinformática da Escola de Engenharia da Universidade do Minho, e tem como objetivo reunir os scripts utilizados ao longo da realização do trabalho, 
 bem como para armazenamento dos resultados produzidos por cada script. Neste trabalho foi desenvolvido código para a utilização sistemática da ferramenta BioPython e respetivos módulos para a análise e exploração do papel biológico de cada gene.
