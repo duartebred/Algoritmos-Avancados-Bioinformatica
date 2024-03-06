@@ -7,7 +7,7 @@ Repositório criado por:
 - [Joana Lopes](https://github.com/joanalopes0711) (pg53498)
 - [João Ferreira](https://github.com/B-Neil) (pg52182)
 - [Ricardo Oliveira](https://github.com/ricardofoliveira61) (pg53501)
-- [André Ramos] (https://github.com/andrefiliperamos) (pg27665)
+- [André Ramos](https://github.com/andrefiliperamos) (pg27665)
 
 **Algoritmos construidos**
 - Motifs: Gibbs sampling
