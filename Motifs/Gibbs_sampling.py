@@ -5,7 +5,7 @@
 seqs = ['GTAAACAATATTTATAGC', 'AAAATTTACCTTAGAAGG', 'CCGTACTGTCAAGCGTGG', 'TGAGTAAACGACGTCCCA', 'TACTTAACACCCTGTCAA']
 
 
-# selecting randomly the inicial position
+# selecting randomly the initial position
 
 
 def random_init_pos(list_seqs: list[str], w: int) -> list[int]:
