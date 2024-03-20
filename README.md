@@ -1,6 +1,6 @@
 # Algoritmos Avançados para a Bioinformática, 2023/24
 
-**Grupo X**
+**Grupo 2**
 
 Repositório criado por:
 - [André Ramos](https://github.com/andrefiliperamos) (pg27665)
