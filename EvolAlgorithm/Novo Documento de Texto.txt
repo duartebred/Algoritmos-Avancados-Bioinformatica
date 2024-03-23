@@ -1,0 +1,14 @@
+def evaluate(self, indivs):
+       for i in range(len(indivs)):
+            ind = indivs[i]
+            sol = ind.getGenes()
+            # criar motifs
+            pwm = self.vec_to_pwm(sol)
+            mtf = MyMotifs(pwm=pwm, alphabet=self.motifs_finding.alphabet)
+            s = []
+            for j in range(len(self.motifs_finding.seqs)):
+                seq = self.motifs_finding.seqs[j].seq
+                p = self.motifs.mostProbableSeq(seq)
+                s.append(p)
+            fit = self.motifs_finding.score(sol)
+            ind.setFitness(fit)
