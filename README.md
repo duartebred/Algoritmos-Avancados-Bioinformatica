@@ -9,7 +9,7 @@ Repositório criado por:
 - [João Ferreira](https://github.com/B-Neil) (pg52182)
 - [Ricardo Oliveira](https://github.com/ricardofoliveira61) (pg53501)
 
-**Algoritmos construidos**
+**Algoritmos construídos**
 - Motifs: Gibbs sampling
 - Computação evolucionária
 - Procura de padrões: Autómatos finitos; Tries; Árvores de sufixos
