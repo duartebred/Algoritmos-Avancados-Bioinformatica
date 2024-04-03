@@ -2,10 +2,6 @@
 # t -> size of each sequence, all sequences have the same length
 # n -> number of sequences
 
-seqs = ['GTAAACAATATTTATAGC', 'AAAATTTACCTTAGAAGG', 'CCGTACTGTCAAGCGTGG', 'TGAGTAAACGACGTCCCA', 'TACTTAACACCCTGTCAA']
-
-
-# selecting randomly the initial position
 
 class pwm:
     """
@@ -133,7 +129,24 @@ class pwm:
     
 
 class Gibbs (pwm):
+    """
+    Contains all the functions needed to do motif search using the Gibbs sampling algorithm
+    """
     def __init__(self, list_seqs: list[str], w: int, seq_type='DNA', pseudo=1):
+        """
+        Initialize Gibbs sampler.
+
+        Parameters
+        ----------
+        list_seqs : list[str]
+            List of input sequences.
+        w : int
+            Motif length.
+        seq_type : str, optional
+            Biological type of sequences (default is 'DNA').
+        pseudo : int, optional
+            Pseudo count for PWM (default is 1).
+        """
         self.seqs = list_seqs
         self.w = w
         self.seq_type = seq_type
@@ -197,15 +210,45 @@ class Gibbs (pwm):
 
         return sequence_index
     
-
     def new_seqs(self, pos: list[int], seq_idx: int) -> tuple[list[str], str]:
+        """
+        Generate subsequences of length w based on given positions excluding one of the sequences.
+
+        Parameters
+        ----------
+        pos : list[int]
+            List of positions.
+        seq_idx : int
+            Index of the sequence to be excluded.
+
+        Returns
+        -------
+        tuple[list[str], str]
+            Tuple containing the subsequences and excluded sequence.
+        """
         assert isinstance(pos,list) and isinstance(seq_idx,int)
+
         novas_seqs = [self.seqs[idx][P:P + self.w] for idx, P in enumerate(pos) if idx != seq_idx]  # create the motifs with the size w
         return novas_seqs, self.seqs[seq_idx]
     
-    
-
     def prob(self, pos: list[int], seq_idx: int, first=True):
+        """
+        Calculate probabilities of each position for a sequence.
+
+        Parameters
+        ----------
+        pos : list[int]
+            List of positions.
+        seq_idx : int
+            Index of the sequence.
+        first : bool, optional
+            Boolean flag to indicate if it's the first run (default is True).
+
+        Returns
+        -------
+        list[float]
+            List of probabilities.
+        """
         if first:
             possible_motiff, seq_excluded = self.new_seqs(pos, seq_idx)
 
@@ -216,7 +259,7 @@ class Gibbs (pwm):
         #super().__init__(possible_motiff, self.seq_type, self.pseudo)
         t = len(self.seqs[0])
         max_pos = t - self.w
-        seqs_pwm = pwm(possible_motiff, self.seq_type, self.pseudo).genarete_pwm
+        seqs_pwm = pwm(possible_motiff, self.seq_type, self.pseudo).genarete_pwm()
         prob = []
 
         for I in range(max_pos + 1):
@@ -225,7 +268,6 @@ class Gibbs (pwm):
 
         return [prob[I] / sum(prob) for I in range(len(prob))]
 
-
     def roulette_wheel(self, probs: list[float]):
         import random
         assert (round(sum(probs), 0) == 1)
@@ -233,12 +275,10 @@ class Gibbs (pwm):
 
         return random.choices(pos, probs, k=1)
 
-
     def score(self, off: list[int]) -> int:
         alfa=self.alfabeto()
         snips = [self.seqs[I][p:p + self.w] for I, p in enumerate(off)]
         return sum(max({x: s.count(x) for x in alfa}.values()) for s in zip(*snips))
-
 
     def gibbs_sampling(self):
         pos = self.random_init_pos()
@@ -262,9 +302,3 @@ class Gibbs (pwm):
                 if contador >=50: break
 
         return best_off, max_sc
-        
-
-
-
-
-
