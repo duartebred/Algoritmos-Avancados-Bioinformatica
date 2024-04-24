@@ -20,11 +20,11 @@ class pwm:
         Value of pseudocount to prevent matrix entries to have value of 0
     
     """
-    def __init__(self, seqs: list[str], seq_type: str = 'DNA', pseudo: int =1) -> None:
+    def __init__(self, seqs: list[str] =None, seq_type: str = 'DNA', pseudo: int =1) -> None:
         self.seqs = seqs
         self.seq_type = seq_type
         self.pseudo = pseudo
-        self.pwm = self.pwm()
+        #self.pwm = self.genarete_pwm()
 
     def alfabeto(self) -> str:
         """
@@ -70,20 +70,16 @@ class pwm:
             - If at least one elemet of the sequences is not present in the alphabet
             
         """
-        
         # Check if sequences are provided in a list
         assert isinstance(self.seqs, list), 'Sequences must be a list'
-
         # Check if all sequences have the same length
         assert all(len(self.seqs[0])==len(seq)for seq in self.seqs), 'As sequencias devem possuir o mesmo tamanho'
-       
         # Obtain the alphabet
         alphabet = self.alfabeto()
-
         # Check if  each element in sequences is in the alphabet
         for seq in self.seqs:
             for pos, elem in enumerate(seq):
-                assert elem in alphabet, f"The element '{elem}' at position {pos + 1} in sequence {seq} is not in the alphabet. Please ensure all elements are in uppercase."
+                assert elem in alphabet, f"The element '{elem}' at position {pos + 1} in sequence {seq} is not in the alphabet of {self.seq_type}. Please ensure all elements are in uppercase."
 
         # Initializing list to store the resulting PWM
         resulting_pwm= []
@@ -115,15 +111,16 @@ class pwm:
         AssertionError
             If the length of the sequence is not equal to the length of the PWM
         """
+        pwm= self.genarete_pwm()
         # Check if the length of the sequence mathces the length of the PWM
-        assert len(seq) == len(self.pwm), f"The sequence '{seq}' is not the same length as the PWM"
+        assert len(seq) == len(pwm), f"The sequence '{seq}' is not the same length as the PWM"
 
         # Initialize product to store probability
         product = 1
 
         # Calculate the probability of the sequence
         for index, elem in enumerate(seq):
-            product *= self.pwm[index][elem]
+            product *= pwm[index][elem]
         
         return product
     
@@ -269,6 +266,24 @@ class Gibbs (pwm):
         return [prob[I] / sum(prob) for I in range(len(prob))]
 
     def roulette_wheel(self, probs: list[float]):
+        """
+        Randomly selects a sequence  based on probabilities.
+
+        Parameters
+        -----------
+        probs List[float]: 
+            List of probabilities for each index.
+
+        Returns
+        ----------
+        int: 
+            The selected index.
+
+        Raises
+        ----------
+        AssertionError:
+            If the sum of the list of probabilities is not 1
+        """
         import random
         assert (round(sum(probs), 0) == 1)
         pos = [I for I in range(len(probs))]
