@@ -13,7 +13,7 @@ def round_pwm_results(pwm:list[dict[str,float]]):
 class Test_pwm_gibss_sampling(unittest.TestCase):
     def setUp(self):
         self.test = ['GTAAACAATATTTATAGC', 'AAAATTTACCTTAGAAGG', 'CCGTACTGTCAAGCGTGG', 'TGAGTAAACGACGTCCCA', 'TACTTAACACCCTGTCAA']
-        
+        self.seqs_test = [[], ["AAAA","AAAA","AAAA"], ["ACT","TTT","CGC"]]
     def test_pwm_alfabeto(self):
         seq_type = ['DNA', 'RNA', 'PROTEIN', "dna", "RnA","ProtEiN"]
         alfa = ["ACGT", "ACGU","ABCDEFGHIKLMNPQRSTVWYZ","ACGT", "ACGU","ABCDEFGHIKLMNPQRSTVWYZ" ]
@@ -29,11 +29,18 @@ class Test_pwm_gibss_sampling(unittest.TestCase):
 
     def test_pwm_genarete_pwm(self):
         resultado = [
-        ]
+            [],
+            [{"A": 0.5714, "C": 0.1429, "G": 0.1429, "T": 0.1429},
+             {"A": 0.5714, "C": 0.1429, "G": 0.1429, "T": 0.1429},
+             {"A": 0.5714, "C": 0.1429, "G": 0.1429, "T": 0.1429},
+             {"A": 0.5714, "C": 0.1429, "G": 0.1429, "T": 0.1429}],
+            [{"A": 0.2857, "C": 0.2857, "G": 0.1429, "T": 0.2857},
+             {"A": 0.1429, "C": 0.2857, "G": 0.2857, "T": 0.2857},
+             {"A": 0.1429, "C": 0.2857, "G": 0.1429, "T": 0.4286}]]
 
-        #pwm_ = round_pwm_results(pwm(["A","A","A"]).genarete_pwm())
-        pwm_ = round_pwm_results(pwm(self.test).genarete_pwm())
-        self.assertEqual(pwm_,resultado)
+        for seqs, results in zip(self.seqs_test,resultado):
+            pwm_ = round_pwm_results(pwm(seqs).genarete_pwm())    
+            self.assertEqual(pwm_,results)
 
 if __name__ == '__main__':
     unittest.main()

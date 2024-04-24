@@ -66,7 +66,7 @@ class pwm:
         ------
         AssertionError
             - If the sequences are not given in a list
-            - If the lengrhs of at least one of the sequences differ from the rest
+            - If the lengths of at least one of the sequences differ from the rest
             - If at least one elemet of the sequences is not present in the alphabet
             
         """
