@@ -53,7 +53,7 @@ class pwm:
         else:
             return "ABCDEFGHIKLMNPQRSTVWYZ"
 
-    def genarete_pwm(self) -> list[dict[str, float]]:
+    def generate_pwm(self) -> list[dict[str, float]]:
         """
         Genaretes a position weight matrix (PWM) from a list of aligned sequences
                 
@@ -111,7 +111,7 @@ class pwm:
         AssertionError
             If the length of the sequence is not equal to the length of the PWM
         """
-        pwm= self.genarete_pwm()
+        pwm= self.generate_pwm()
         # Check if the length of the sequence mathces the length of the PWM
         assert len(seq) == len(pwm), f"The sequence '{seq}' is not the same length as the PWM"
 
