@@ -127,6 +127,7 @@ def pwm_proteina(seq_type:str, pseudo: float):
         
         return pwm_2
 
+
 class Test_pwm_gibss_sampling(unittest.TestCase):
     def setUp(self):
         self.test = ['GTAAACAATATTTATAGC', 'AAAATTTACCTTAGAAGG', 'CCGTACTGTCAAGCGTGG', 'TGAGTAAACGACGTCCCA', 'TACTTAACACCCTGTCAA']
@@ -162,6 +163,13 @@ class Test_pwm_gibss_sampling(unittest.TestCase):
     
     def test_pwm_prob_seq(self):
         pass
+
+
+class Test_gibbs(unittest.TestCase):
+
+    def test_new_seqs():
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()
