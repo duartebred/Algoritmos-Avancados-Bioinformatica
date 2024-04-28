@@ -228,7 +228,7 @@ class Gibbs (pwm):
         novas_seqs = [self.seqs[idx][P:P + self.w] for idx, P in enumerate(pos) if idx != seq_idx]  # create the motifs with the size w
         return novas_seqs, self.seqs[seq_idx]
     
-    def prob(self, pos: list[int], seq_idx: int, first=True):
+    def prob_each_seq(self, pos: list[int], seq_idx: int, first=True):
         """
         Calculate probabilities of each position for a sequence.
 
@@ -303,9 +303,9 @@ class Gibbs (pwm):
             seq_idx = self.random_seq()
 
             if first_run:
-                probs, first_run = self.prob(pos, seq_idx), False
+                probs, first_run = self.prob_each_seq(pos, seq_idx), False
             
-            else: probs = self.prob(pos, seq_idx, first=False)
+            else: probs = self.prob_each_seq(pos, seq_idx, first=False)
 
             pos[seq_idx] = self.roulette_wheel(probs)[0]
 
