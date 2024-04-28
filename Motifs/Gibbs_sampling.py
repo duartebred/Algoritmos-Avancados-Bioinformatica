@@ -111,10 +111,10 @@ class pwm:
         AssertionError
             If the length of the sequence is not equal to the length of the PWM
         """
-        pwm= self.generate_pwm()
         # Check if the length of the sequence is smaller or have the length of the PWM
         assert len(seq) <= len(pwm), f"The sequence '{seq}' is not the same length as the PWM"
-
+        
+        pwm= self.generate_pwm()
         # Initialize product to store probability
         product = 1
 
