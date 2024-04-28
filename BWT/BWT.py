@@ -1,8 +1,9 @@
 
 class BWT:
 
-    def __init__(self):
+    def __init__(self, seqOriginal):
 
+        self.seqOriginal = seqOriginal
         self.listaSequenciaOriginal = []
         
     def criarMatriz(self, seq):
@@ -106,10 +107,16 @@ class BWT:
 
     def suffix_array(self, seq):
 
-        return sorted(range(len(seq)), key=lambda i: seq[i:])
+        self.suffix_array = sorted(range(len(seq)), key=lambda i: seq[i:])
+
+        return self.suffix_array
 
     
-    def procuraPadraoBWT(self, bwt, sorted_bwt, suffix_array, pattern):
+    def procuraPadraoBWT(self, pattern):
+
+        bwt = self.construirBWT(self.ordenarMatriz(self.criarMatriz(self.seqOriginal)))
+        sorted_bwt = sorted(bwt)
+        suffix_array = self.suffix_array
         
         # Criação do array de contagem
         count = {char: [0] * (len(bwt) + 1) for char in set(bwt)}
@@ -142,13 +149,13 @@ class BWT:
         return []
 
 
-seq = 'TAGACAGAGA$' # 'TAGACAGAGA$'
+seq = 'TAGACAGAGA$'
 #seq = 'AATGCAATG$'
 print('Calcular a Bwt a partir de ' + seq)
 print()
 print('Matriz desordenada')
 print()
-classe = BWT()
+classe = BWT(seq)
 classe.imprimirMatriz(classe.criarMatriz(seq))
 print()
 print('Matriz Ordenada')
@@ -189,4 +196,4 @@ arraySufixos = classe.suffix_array(seq)
 print(arraySufixos)
 print()
 
-print(classe.procuraPadraoBWT(bwt, sorted(bwt), arraySufixos, padrao))
+print(classe.procuraPadraoBWT(padrao))
