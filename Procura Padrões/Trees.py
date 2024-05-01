@@ -90,7 +90,7 @@ class Trees:
                 
                 dot.edge(parent, chave, label=edge_label)
                 
-            self.vistaGrafViz(valor, chave, edge_label=chave)
+            self.vistaGrafica(valor, chave, edge_label=chave)
 
         #print(dot.source)
 
