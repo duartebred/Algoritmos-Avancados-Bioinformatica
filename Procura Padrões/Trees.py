@@ -1,9 +1,7 @@
-import networkx as nx
-import matplotlib.pyplot as plt
 import graphviz
 from pprint import pprint
 class Trees:
-
+    
     def __init__(self, listaPalavras):
 
         self.listaPalavras = listaPalavras
@@ -71,12 +69,14 @@ class Trees:
         _apagar(self.trie, palavra, 0)
         
     
-    def vistaGrafViz(self, nodo=None, parent=None, edge_label=''):
+    def vistaGrafica(self, nodo=None, dot=None, parent=None, edge_label=''):
 
         if nodo is None:
             nodo = self.trie
 
-        dot = graphviz.Digraph('Trie', comment='Visualização da Trie')
+        if dot is None:
+
+            dot = graphviz.Digraph('Trie', comment='Visualização da Trie')
 
         for chave, valor in nodo.items():
             
@@ -96,33 +96,10 @@ class Trees:
 
         return dot
     
-    def vistaGrafica(self, nodo=None, parent=None, edge_label='', G=None):
 
-        if nodo is None:
-            nodo = self.trie
-            G = nx.DiGraph()
-
-        for chave, valor in nodo.items():
-            
-            if chave == '$':
-                continue
-            
-            G.add_node(chave)
-            
-            if parent is not None:
-                G.add_edge(parent, chave)
-                
-            self.vistaGrafica(valor, chave, edge_label=chave, G=G)
-
-        return G
-   
 t = Trees(['ar', 'amora', 'amor', 'braquio'])
 t.inserir()
 print(t.procurar('amora'))
 pprint(t.trie)
-G = t.vistaGrafViz()
-G
-
 G = t.vistaGrafica()
-nx.draw(G, with_labels=True)
-plt.show()
+G.view()
