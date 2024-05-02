@@ -69,30 +69,29 @@ class Trees:
         _apagar(self.trie, palavra, 0)
         
     
-    def vistaGrafica(self, nodo=None, dot=None, parent=None, edge_label=''):
+    def vistaGrafica(self, dot=None, nodo=None, parent=None, edge_label=''):
 
         if nodo is None:
             nodo = self.trie
 
         if dot is None:
-
             dot = graphviz.Digraph('Trie', comment='Visualização da Trie')
+            dot.node("Trie", '', shape='point')
 
         for chave, valor in nodo.items():
-            
-            if chave == '$':
-                                
-                continue
-            
-            dot.node(chave, chave)
-            
-            if parent is not None:
-                
-                dot.edge(parent, chave, label=edge_label)
-                
-            self.vistaGrafica(valor, chave, edge_label=chave)
 
-        #print(dot.source)
+            # Cria um nó sem rótulo
+            node_id = (parent + "_" if parent is not None else "") + chave
+            print(parent, node_id)
+            dot.node(node_id, '', shape='point')
+
+            if parent is not None:
+                dot.edge(parent, node_id, label=edge_label)
+            else:
+                dot.edge("Trie", node_id, label=edge_label)
+
+            if chave != '$':
+              self.vistaGrafica(dot, valor, node_id, edge_label=chave)
 
         return dot
     
