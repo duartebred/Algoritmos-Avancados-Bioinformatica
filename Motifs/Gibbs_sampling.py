@@ -165,7 +165,7 @@ class Gibbs (pwm):
         """
         import random
 
-        # CHeck if sequences is a list
+        # Check if sequences is a list
         assert isinstance(self.seqs,list), 'Sequences must be a list'
 
         # Get the length of each sequence and the total number of sequences
@@ -214,16 +214,24 @@ class Gibbs (pwm):
         Parameters
         ----------
         pos : list[int]
-            List of positions.
+            List of positions where to start making the motif for each sequece.
         seq_idx : int
             Index of the sequence to be excluded.
 
         Returns
-        -------
+        ---------
         tuple[list[str], str]
             Tuple containing the subsequences and excluded sequence.
+
+        Raises
+        ------------
+        AssertionError:
+            If the positions are not provided in a list and the the indice of the sequence to be excluded is not a integer
+            If the list of positions for each sequence doesn't have the same length as the number of sequences
+
         """
         assert isinstance(pos,list) and isinstance(seq_idx,int)
+        assert len(pos)==len(self.seqs), f"The number of positions should be equal to the number of sequences, you have {len(pos)} positions and {len(self.seqs)} sequences"
 
         novas_seqs = [self.seqs[idx][P:P + self.w] for idx, P in enumerate(pos) if idx != seq_idx]  # create the motifs with the size w
         return novas_seqs, self.seqs[seq_idx]
@@ -253,15 +261,16 @@ class Gibbs (pwm):
             possible_motiff = [seq[pos[idx]: pos[idx] + self.w] for idx, seq in enumerate(self.seqs) if idx != seq_idx]
             seq_excluded = self.seqs[seq_idx]
 
-        #super().__init__(possible_motiff, self.seq_type, self.pseudo)
         t = len(self.seqs[0])
         max_pos = t - self.w
-        seqs_pwm = pwm(possible_motiff, self.seq_type, self.pseudo).genarete_pwm()
+        #seqs_pwm = pwm(seqs=possible_motiff, seq_type=self.seq_type, pseudo=self.pseudo).generate_pwm()
         prob = []
 
         for I in range(max_pos + 1):
             seq = seq_excluded[I:I + self.w]
-            prob.append(self.prob_seq(seq, seqs_pwm))
+            #prob.append(self.prob_seq(seq, seqs_pwm))
+            prob.append(pwm(seqs=possible_motiff, seq_type=self.seq_type, pseudo=self.pseudo).prob_seq(seq))
+            
 
         return [prob[I] / sum(prob) for I in range(len(prob))]
 
@@ -317,3 +326,7 @@ class Gibbs (pwm):
                 if contador >=50: break
 
         return best_off, max_sc
+
+if __name__ == "__main__":
+    seqs = ['GTAAACAATATTTATAGC', 'AAAATTTACCTTAGAAGG', 'CCGTACTGTCAAGCGTGG', 'TGAGTAAACGACGTCCCA', 'TACTTAACACCCTGTCAA']
+    print(Gibbs(seqs,8).gibbs_sampling())
