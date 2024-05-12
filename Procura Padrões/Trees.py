@@ -96,9 +96,11 @@ class Trees:
         return dot
     
 
-t = Trees(['ar', 'amora', 'amor', 'braquio'])
-t.inserir()
-print(t.procurar('amora'))
-pprint(t.trie)
-G = t.vistaGrafica()
-G.view()
+if __name__ == "__main__":
+    
+    t = Trees(['ar', 'amora', 'amor', 'braquio'])
+    t.inserir()
+    print(t.procurar('amora'))  
+    pprint(t.trie)
+    G = t.vistaGrafica()
+    G.view()
