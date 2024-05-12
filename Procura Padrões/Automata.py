@@ -42,8 +42,15 @@ class Automata:
         return listaMatchs        
 
 
-teste = Automata(('a', 'c', 'g', 't'), 'acc')
-for tr in teste.transicoes:
-    print (tr, ': ', teste.transicoes[tr])
-print(teste.aplicaAutomato('aaccttgtgccattgtacca'))
-print(teste.posicoesMatch('aaccttgtgccattgtacca'))
+if __name__ == "__main__":
+    teste = Automata(('a', 'c', 'g', 't'), 'acc')
+
+    for tr in teste.transicoes:
+        print(tr, ': ', teste.transicoes[tr])
+
+    sequencia = 'aaccttgtgccattgtacca'
+    estados = teste.aplicaAutomato(sequencia)
+    print(estados)
+
+    posicoes_match = teste.posicoesMatch(sequencia)
+    print(posicoes_match)
