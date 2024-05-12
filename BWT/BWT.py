@@ -147,53 +147,54 @@ class BWT:
                 return sorted([suffix_array[i] for i in range(top, bottom + 1)])
 
         return []
+    
 
+if __name__ == "__main__":
+    seq = 'TAGACAGAGA$'
+    print('Calcular a Bwt a partir de ' + seq)
+    print()
+    print('Matriz desordenada')
+    print()
+    classe = BWT(seq)
+    matriz_nao_ordenada = classe.criarMatriz(seq)
+    classe.imprimirMatriz(matriz_nao_ordenada)
+    print()
+    print('Matriz Ordenada')
+    print()
+    matriz_ordenada = classe.ordenarMatriz(matriz_nao_ordenada)
+    classe.imprimirMatriz(matriz_ordenada)
+    print()
+    bwt = classe.construirBWT(matriz_ordenada)
+    print('BWT = ' + bwt)
+    
+    classe.criarDicionarioOcorrencias(bwt)
+    print()
+    print('Calcular a sequencia original a partir de ' + bwt)
+    print()
+    primeiraColuna = classe.criarPrimeiraColuna(bwt)
+    print('Primeura Coluna: ' + str(primeiraColuna))
+    print()
+    ultimaColuna = classe.criarUltimaColuna(bwt)
+    print('Última Coluna: ' + str(ultimaColuna))
+    print()
+    listaConcatenadaPrimeiraColuna = []
+    classe.preencherLista(primeiraColuna, listaConcatenadaPrimeiraColuna)
+    print('Primeira Coluna Numerada: \n\n' + str(listaConcatenadaPrimeiraColuna))
+    print()
+    listaConcatenadaUltimaColuna = []
+    classe.preencherLista(ultimaColuna, listaConcatenadaUltimaColuna)
+    print('Ultima Coluna Numerada: \n\n' + str(listaConcatenadaUltimaColuna))
+    print()
+    comprimentoUltimaColuna = len(listaConcatenadaUltimaColuna)
+    classe.obterSequenciaOriginal('$0', comprimentoUltimaColuna, listaConcatenadaPrimeiraColuna, listaConcatenadaUltimaColuna)
+    sequenciaOriginal = classe.SequenciaOriginalEmString()
+    print('SequenciaOriginal: ' + sequenciaOriginal)
+    print()
+    padrao = 'AGA'
+    print('Procurar o padrão: ' + padrao)
+    print()
+    arraySufixos = classe.suffix_array(seq)
+    print(arraySufixos)
+    print()
 
-seq = 'TAGACAGAGA$'
-#seq = 'AATGCAATG$'
-print('Calcular a Bwt a partir de ' + seq)
-print()
-print('Matriz desordenada')
-print()
-classe = BWT(seq)
-classe.imprimirMatriz(classe.criarMatriz(seq))
-print()
-print('Matriz Ordenada')
-print()
-classe.imprimirMatriz(classe.ordenarMatriz(classe.criarMatriz(seq)))
-print()
-bwt = classe.construirBWT(classe.ordenarMatriz(classe.criarMatriz(seq)))
-print('BWT = ' + bwt)
-
-classe.criarDicionarioOcorrencias(bwt)
-print()
-print('Calcular a sequencia original a partir de ' + bwt)
-print()
-primeiraColuna = classe.criarPrimeiraColuna(bwt)
-print('Primeura Coluna: ' + str(primeiraColuna))
-print()
-ultimaColuna = classe.criarUltimaColuna(bwt)
-print('Última Coluna: ' + str(ultimaColuna))
-print()
-listaConcatenadaPrimeiraColuna = []
-classe.preencherLista(primeiraColuna, listaConcatenadaPrimeiraColuna)
-print('Primeira Coluna Numerada: \n\n' + str(listaConcatenadaPrimeiraColuna))
-print()
-listaConcatenadaUltimaColuna = []
-classe.preencherLista(ultimaColuna, listaConcatenadaUltimaColuna)
-print('Ultima Coluna Numerada: \n\n' + str(listaConcatenadaUltimaColuna))
-print()
-comprimentoUltimaColuna = len(listaConcatenadaUltimaColuna)
-classe.obterSequenciaOriginal('$0', comprimentoUltimaColuna, listaConcatenadaPrimeiraColuna, listaConcatenadaUltimaColuna)
-sequenciaOriginal = classe.SequenciaOriginalEmString()
-print('SequenciaOriginal: ' + sequenciaOriginal)
-print()
-padrao = 'AGA'
-#padrao = 'ATG'
-print('Procurar o padrão: ' + padrao)
-print()
-arraySufixos = classe.suffix_array(seq)
-print(arraySufixos)
-print()
-
-print(classe.procuraPadraoBWT(padrao))
+    print(classe.procuraPadraoBWT(padrao))
