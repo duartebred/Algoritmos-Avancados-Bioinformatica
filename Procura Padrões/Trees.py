@@ -2,13 +2,13 @@ import graphviz
 from pprint import pprint
 class Trees:
     
-    def __init__(self, listaPalavras):
+    def __init__(self, listaPalavras : list[str]) -> None:
 
         self.listaPalavras = listaPalavras
         self.trie = {}
 
 
-    def inserir(self):
+    def inserir(self) -> tuple[dict[str, any], dict[str, any]]:
 
         for palavra in self.listaPalavras:
             t = self.trie
@@ -23,7 +23,7 @@ class Trees:
 
         return self.trie, t
     
-    def procurar(self, palavra):
+    def procurar(self, palavra : str) -> bool:
 
         t = self.trie
         
@@ -44,7 +44,7 @@ class Trees:
             
             return False
     
-    def apagar(self, palavra):
+    def apagar(self, palavra : str) -> None:
         
         def _apagar(nodo, palavra, i):
             
@@ -69,7 +69,7 @@ class Trees:
         _apagar(self.trie, palavra, 0)
         
     
-    def vistaGrafica(self, dot=None, nodo=None, parent=None, edge_label=''):
+    def vistaGrafica(self, dot = None, nodo = None, parent = None, edge_label : str = '') -> graphviz.Digraph:
 
         if nodo is None:
             nodo = self.trie
