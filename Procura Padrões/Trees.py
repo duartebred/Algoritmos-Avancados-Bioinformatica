@@ -1,6 +1,38 @@
 import graphviz
 from pprint import pprint
 class Trees:
+
+    """
+    This class provides methods for managing a Trie (prefix tree) structure, used for efficient retrieval of words and prefixes.
+    It allows insertion of words, searching for a word, deleting words, and visualizing the trie structure.
+
+    Parameters
+    ----------
+    listaPalavras : list[str]
+        A list of words to be inserted into the trie.
+
+    Attributes
+    ----------
+    listaPalavras : list[str]
+        Stores the list of words used to populate the trie.
+    trie : dict[str, any]
+        The trie data structure implemented as a nested dictionary.
+
+    Methods
+    -------
+    inserir() -> tuple[dict[str, any], dict[str, any]]
+        Inserts all words from the initial list into the trie and returns the entire trie and the last node modified.
+    
+    procurar(palavra: str) -> bool
+        Searches for a specific word in the trie and returns True if the word exists, otherwise False.
+    
+    apagar(palavra: str) -> None
+        Deletes a specific word from the trie, if it exists.
+
+    vistaGrafica(dot=None, nodo=None, parent=None, edge_label: str='') -> graphviz.Digraph
+        Generates a graphical representation of the trie using graphviz for visualization purposes. Useful for debugging or presentations.
+
+    """
     
     def __init__(self, listaPalavras : list[str]) -> None:
 
