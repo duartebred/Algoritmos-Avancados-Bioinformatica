@@ -1,14 +1,14 @@
 
 class Automata:
 
-    def __init__(self, alfabeto, padrao):
+    def __init__(self, alfabeto : list[str], padrao : str) -> None:
         self.alfabeto = alfabeto
         self.padrao = padrao
         self.transicoes = {}
         self.tabelaTransicoes()
 
 
-    def tabelaTransicoes(self):
+    def tabelaTransicoes(self) -> None:
         for estado in range(len(self.padrao)):
             for caracter in self.alfabeto:
                 transicao=(estado, caracter)
@@ -21,7 +21,7 @@ class Automata:
                         self.transicoes[transicao]=0
                         
                         
-    def aplicaAutomato(self, sequencia):
+    def aplicaAutomato(self, sequencia : str) -> list[int]:
         estado = 0
         estados = []
         for car in sequencia:
@@ -32,7 +32,7 @@ class Automata:
         return estados    
 
 
-    def posicoesMatch(self, sequencia):
+    def posicoesMatch(self, sequencia : str) -> list[int]:
         listaEstados = self.aplicaAutomato(sequencia)
         listaMatchs = []
         for i in range(len(listaEstados)):
