@@ -18,20 +18,6 @@ class Trees:
     trie : dict[str, any]
         The trie data structure implemented as a nested dictionary.
 
-    Methods
-    -------
-    inserir() -> tuple[dict[str, any], dict[str, any]]
-        Inserts all words from the initial list into the trie and returns the entire trie and the last node modified.
-    
-    procurar(palavra: str) -> bool
-        Searches for a specific word in the trie and returns True if the word exists, otherwise False.
-    
-    apagar(palavra: str) -> None
-        Deletes a specific word from the trie, if it exists.
-
-    vistaGrafica(dot=None, nodo=None, parent=None, edge_label: str='') -> graphviz.Digraph
-        Generates a graphical representation of the trie using graphviz for visualization purposes. Useful for debugging or presentations.
-
     """
     
     def __init__(self, listaPalavras : list[str]) -> None:
@@ -41,6 +27,19 @@ class Trees:
 
 
     def inserir(self) -> tuple[dict[str, any], dict[str, any]]:
+        """
+        Inserts all words from the initial list into the trie and returns the entire trie and the last node modified.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        tuple[dict[str, any], dict[str, any]]
+            Returns a tuple containing the entire trie after insertion of all words and the last modified node in the trie.
+        
+        """
 
         for palavra in self.listaPalavras:
             t = self.trie
@@ -56,6 +55,20 @@ class Trees:
         return self.trie, t
     
     def procurar(self, palavra : str) -> bool:
+        """
+        Searches for a specific word in the trie and returns True if the word exists, otherwise False.
+
+        Parameters
+        ----------
+        palavra : str
+            The word to be searched in the trie.
+
+        Returns
+        -------
+        bool
+            True if the word is found in the trie, otherwise False.
+
+        """
 
         t = self.trie
         
@@ -77,8 +90,39 @@ class Trees:
             return False
     
     def apagar(self, palavra : str) -> None:
+        """
+        Deletes a specific word from the trie, if it exists.
+
+        Parameters
+        ----------
+        palavra : str
+            The word to be deleted from the trie.
+
+        Returns
+        -------
+        None
+
+        """
         
-        def _apagar(nodo, palavra, i):
+        def _apagar(nodo : dict, palavra : str, i : int) -> bool:
+            """
+            Recursively deletes a word from the trie, checking each character individually.
+
+            Parameters
+            ----------
+            nodo : dict
+                The current node in the trie being modified.
+            palavra : str
+                The word that is to be deleted from the trie.
+            i : int
+                The current index in the word being processed.
+
+            Returns
+            -------
+            bool
+                Returns True if the current node can be deleted after the word is removed, otherwise False.
+
+            """
             
             if i == len(palavra):
                 
@@ -102,6 +146,26 @@ class Trees:
         
     
     def vistaGrafica(self, dot = None, nodo = None, parent = None, edge_label : str = '') -> graphviz.Digraph:
+        """
+        Generates a graphical representation of the trie using graphviz for visualization purposes.
+
+        Parameters
+        ----------
+        dot : graphviz.Digraph, optional
+            The graphviz object to which the trie nodes will be added. If None, a new graph is created.
+        nodo : dict, optional
+            The current node in the trie being visualized. If None, starts from the root of the trie.
+        parent : str, optional
+            The identifier of the parent node in the graph. Used to connect nodes in the graph.
+        edge_label : str, optional
+            The label for the edge connecting the parent node to the current node.
+
+        Returns
+        -------
+        graphviz.Digraph
+            The graphviz object containing the visual representation of the trie.
+
+        """
 
         if nodo is None:
             nodo = self.trie
