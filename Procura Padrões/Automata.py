@@ -22,20 +22,10 @@ class Automata:
         A dictionary representing the state transition table where keys are tuples of state and character, 
         and values are the resultant states after the transition.
 
-    Methods
-    -------
-    tabelaTransicoes() -> None
-        Constructs the state transition table for the automaton based on the pattern and alphabet.
-
-    aplicaAutomato(sequencia: str) -> list[int]
-        Processes a sequence through the automaton and returns a list of states the automaton was in after each character.
-
-    posicoesMatch(sequencia: str) -> list[int]
-        Identifies and returns the starting positions of the pattern within the given sequence.
-
     """
 
     def __init__(self, alfabeto : list[str], padrao : str) -> None:
+
         self.alfabeto = alfabeto
         self.padrao = padrao
         self.transicoes = {}
@@ -43,6 +33,20 @@ class Automata:
 
 
     def tabelaTransicoes(self) -> None:
+        """
+        Constructs the state transition table for the automaton based on the specified pattern and alphabet. 
+        This table is used to determine the next state for each character and state combination during the pattern search.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+
+        """
+
         for estado in range(len(self.padrao)):
             for caracter in self.alfabeto:
                 transicao=(estado, caracter)
@@ -56,6 +60,21 @@ class Automata:
                         
                         
     def aplicaAutomato(self, sequencia : str) -> list[int]:
+        """
+        Processes a given sequence through the automaton and records the state transitions as the sequence is processed.
+
+        Parameters
+        ----------
+        sequencia : str
+            The sequence on which the automaton is applied.
+
+        Returns
+        -------
+        list[int]
+            A list representing the states of the automaton at each step of processing the sequence.
+
+        """
+         
         estado = 0
         estados = []
         for car in sequencia:
@@ -67,6 +86,22 @@ class Automata:
 
 
     def posicoesMatch(self, sequencia : str) -> list[int]:
+        """
+        Identifies all the starting positions of the given pattern in the sequence using the automaton.
+
+        Parameters
+        ----------
+        sequencia : str
+            The sequence in which to search for the pattern.
+
+        Returns
+        -------
+        list[int]
+            A list of indices representing the starting positions of the pattern within the sequence. If the pattern
+            is not found, returns an empty list.
+
+        """
+        
         listaEstados = self.aplicaAutomato(sequencia)
         listaMatchs = []
         for i in range(len(listaEstados)):
