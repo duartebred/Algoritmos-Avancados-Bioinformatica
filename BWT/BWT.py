@@ -1,12 +1,12 @@
 
 class BWT:
 
-    def __init__(self, seqOriginal):
+    def __init__(self, seqOriginal : str) -> None:
 
         self.seqOriginal = seqOriginal
         self.listaSequenciaOriginal = []
         
-    def criarMatriz(self, seq):
+    def criarMatriz(self, seq : str) -> list[str]:
         matriz = []
         for indice in range(len(seq)):
 
@@ -16,18 +16,18 @@ class BWT:
 
         return matriz
 
-    def ordenarMatriz(self, matriz):
+    def ordenarMatriz(self, matriz : list[str]) -> list[str]:
 
         return sorted(matriz)
 
     
-    def imprimirMatriz(self, matriz):
+    def imprimirMatriz(self, matriz : list[str]) -> None:
 
         for linha in matriz:
 
             print(linha)
 
-    def construirBWT(self, matriz):
+    def construirBWT(self, matriz : list[str]) -> str:
 
         bwt = ""
 
@@ -37,11 +37,11 @@ class BWT:
 
         return bwt
 
-    def criarPrimeiraColuna(self, bwt):
+    def criarPrimeiraColuna(self, bwt : str) -> list[str]:
 
         return sorted(bwt)
 
-    def criarUltimaColuna(self, bwt):
+    def criarUltimaColuna(self, bwt : str) -> list[str]:
 
         lista = []
 
@@ -51,11 +51,11 @@ class BWT:
 
         return lista
 
-    def criarDicionarioOcorrencias(self, bwt):
+    def criarDicionarioOcorrencias(self, bwt : str) -> None:
         
         self.dicionarioOcorrencias = {letra: -1 for letra in bwt}
         
-    def decidirCaracter(self, item, chave, lista):
+    def decidirCaracter(self, item : str, chave: str, lista : list[str]) -> None:
 
         if item == chave:
 
@@ -64,7 +64,7 @@ class BWT:
             
         
 
-    def preencherLista(self, listaSequencias, listaConcatenada):
+    def preencherLista(self, listaSequencias : list[str], listaConcatenada : list[str]) -> None:
         
         for item in listaSequencias:
             
@@ -77,7 +77,7 @@ class BWT:
             self.dicionarioOcorrencias[chave] = -1
         
                 
-    def obterSequenciaOriginal(self, letra, comprimentoUltimaColuna, primeiraColuna, ultimaColuna):
+    def obterSequenciaOriginal(self, letra : str, comprimentoUltimaColuna : int, primeiraColuna : list[str], ultimaColuna : list[str]) -> None:
         
         indice= -1
 
@@ -97,7 +97,7 @@ class BWT:
 
         self.obterSequenciaOriginal(letra, comprimentoUltimaColuna, primeiraColuna, ultimaColuna)
 
-    def SequenciaOriginalEmString(self):
+    def SequenciaOriginalEmString(self) -> str:
 
         seqOriginal = ''.join(self.listaSequenciaOriginal)
 
@@ -105,14 +105,14 @@ class BWT:
 
         return seqOriginal
 
-    def suffix_array(self, seq):
+    def suffix_array(self, seq : str) -> list[int]:
 
         self.suffix_array = sorted(range(len(seq)), key=lambda i: seq[i:])
 
         return self.suffix_array
 
     
-    def procuraPadraoBWT(self, pattern):
+    def procuraPadraoBWT(self, pattern : str) -> list[int]:
 
         bwt = self.construirBWT(self.ordenarMatriz(self.criarMatriz(self.seqOriginal)))
         sorted_bwt = sorted(bwt)
