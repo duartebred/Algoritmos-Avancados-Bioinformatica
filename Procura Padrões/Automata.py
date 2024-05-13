@@ -1,6 +1,40 @@
 
 class Automata:
 
+    """
+    This class implements a finite automaton for pattern matching within text. It constructs a transition table based on a given pattern and alphabet, 
+    and provides methods to search for the occurrence of the pattern in any given sequence.
+
+    Parameters
+    ----------
+    alfabeto : list[str]
+        A list of characters representing the alphabet used in the pattern and the sequences.
+    padrao : str
+        The pattern string that the automaton will search for in the sequences.
+
+    Attributes
+    ----------
+    alfabeto : list[str]
+        Stores the alphabet used in the automaton.
+    padrao : str
+        Stores the pattern for which the automaton searches.
+    transicoes : dict[tuple[int, str], int]
+        A dictionary representing the state transition table where keys are tuples of state and character, 
+        and values are the resultant states after the transition.
+
+    Methods
+    -------
+    tabelaTransicoes() -> None
+        Constructs the state transition table for the automaton based on the pattern and alphabet.
+
+    aplicaAutomato(sequencia: str) -> list[int]
+        Processes a sequence through the automaton and returns a list of states the automaton was in after each character.
+
+    posicoesMatch(sequencia: str) -> list[int]
+        Identifies and returns the starting positions of the pattern within the given sequence.
+
+    """
+
     def __init__(self, alfabeto : list[str], padrao : str) -> None:
         self.alfabeto = alfabeto
         self.padrao = padrao
