@@ -22,4 +22,6 @@ Este repositório foi criado no ambito da UC Algoritmos Avançados para a Bioinf
 Neste repositório são apresentadas as implementações dos algoritmos leccionados no âmbito da UC. No código presente neste portfólio, encontra-se a documentação do código, Type hinting, Unit tests e todas as fontes onde se foi buscar código.
 
 Este repositório destaca-se pela originalidade e a autoria do código escrito.
+
+Trabalho proposto pelo docente [Rui Mendes](https://github.com/rcm)
 </div>
