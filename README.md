@@ -16,7 +16,6 @@ Repositório criado por:
 - Alinhamentos contra referências (BWTs)
 - Grafos
 - Redes biológicas
-- Genome assembly
 
 <div align="justify">
 Este repositório foi criado no ambito da UC Algoritmos Avançados para a Bioinformática (2023/24), do Mestrado em Bioinformática da Escola de Engenharia da Universidade do Minho, e tem como objetivo reunir os scripts e notebooks construídos ao longo da realização do trabalho. 
