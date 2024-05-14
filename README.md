@@ -23,6 +23,7 @@ Neste repositório são apresentadas as implementações dos algoritmos lecciona
 
 Este repositório destaca-se pela originalidade e a autoria do código escrito.
 
-**Docennte**
+**Docente**
+
 Trabalho proposto pelo docente [Rui Mendes](https://github.com/rcm).
 </div>
