@@ -69,5 +69,5 @@ R3: M5 => M7
 print("Reaction Graph")
 reaction_graph = ReactionGraph(reacoes)
 reaction_graph.print_graph()
-#falta corrigir um bug nesta parte e adicionar e adicionar mais exemplos e já adiciono o fix no grafos.py a decumentaçao faço quando acabar tudo
+#falta corrigir um bug nesta parte e adicionar o metodo de met-met e reaction-reaction e adicionar mais exemplos e já adiciono o fix no grafos.py a decumentaçao faço quando acabar tudo
 
