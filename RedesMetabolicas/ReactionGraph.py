@@ -131,8 +131,8 @@ if __name__ == "__main__":
 
     print("Metricas de Codigo:")
     print("\nMetrica cyclomatic complexity:")
-    print(subprocess.call(["radon","cc","Redes Metabólicas/ReactionGraph.py", "-s"]))
+    print(subprocess.call(["radon","cc","RedesMetabolicas/ReactionGraph.py", "-s"]))
     print("\nMetrica maintainability index:")
-    print(subprocess.call(["radon","mi","Redes Metabólicas/ReactionGraph.py", "-s"]))
+    print(subprocess.call(["radon","mi","RedesMetabolicas/ReactionGraph.py", "-s"]))
     print("\nMetrica raw:")
-    print(subprocess.call(["radon","raw","Redes Metabólicas/ReactionGraph.py", "-s"]))
+    print(subprocess.call(["radon","raw","RedesMetabolicas/ReactionGraph.py", "-s"]))
