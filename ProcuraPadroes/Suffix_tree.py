@@ -204,8 +204,8 @@ if __name__ == "__main__":
 
     print("Metricas de Codigo:")
     print("\nMetrica cyclomatic complexity:")
-    print(subprocess.call(["radon","cc","Procura Padrões/Suffix_tree.py", "-s"]))
+    print(subprocess.call(["radon","cc","ProcuraPadroes/Suffix_tree.py", "-s"]))
     print("\nMetrica maintainability index:")
-    print(subprocess.call(["radon","mi","Procura Padrões/Suffix_tree.py", "-s"]))
+    print(subprocess.call(["radon","mi","ProcuraPadroes/Suffix_tree.py", "-s"]))
     print("\nMetrica raw:")
-    print(subprocess.call(["radon","raw","Procura Padrões/Suffix_tree.py", "-s"]))
+    print(subprocess.call(["radon","raw","ProcuraPadroes/Suffix_tree.py", "-s"]))

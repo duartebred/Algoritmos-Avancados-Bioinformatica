@@ -127,9 +127,9 @@ if __name__ == "__main__":
 
     print("Metricas de Codigo:")
     print("\nMetrica cyclomatic complexity:")
-    print(subprocess.call(["radon","cc","Procura Padrões/Automata.py", "-s"]))
+    print(subprocess.call(["radon","cc","ProcuraPadroes/Automata.py", "-s"]))
     print("\nMetrica maintainability index:")
-    print(subprocess.call(["radon","mi","Procura Padrões/Automata.py", "-s"]))
+    print(subprocess.call(["radon","mi","ProcuraPadroes/Automata.py", "-s"]))
     print("\nMetrica raw:")
-    print(subprocess.call(["radon","raw","Procura Padrões/Automata.py", "-s"]))
+    print(subprocess.call(["radon","raw","ProcuraPadroes/Automata.py", "-s"]))
 
