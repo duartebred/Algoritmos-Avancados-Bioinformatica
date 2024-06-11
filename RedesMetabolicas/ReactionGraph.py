@@ -2,19 +2,56 @@ import subprocess
 
 class ReactionGraph:
     """
-    A class to represent and analyze given reactions reaction network.
+    This class represents and analyzes a network of chemical reactions. It constructs three types of graphs:
+    metabolite-reaction, metabolite-metabolite, and reaction-reaction based on the reactions provided.
 
+    Parameters
+    ----------
+    reactions : str
+        A string containing multiple reactions, each one defined by a unique reaction ID followed by
+        the reaction equation separated by ": ". Reactions are separated by new lines.
+
+    Attributes
+    ----------
+    reaction_dict : dict[str, str]
+        A dictionary where keys are reaction IDs and values are the corresponding reaction equations.
+
+    metabolite_reaction_graph : dict[str, list[str]]
+        A dictionary representing the graph of metabolites to reactions.
+
+    metabolite_metabolite_graph : dict[str, list[str]]
+        A dictionary representing connections between metabolites based on shared reactions.
+
+    reaction_reaction_graph : dict[str, list[str]]
+        A dictionary showing connections between reactions that share common metabolites.
     """
 
-    def __init__(self, reactions):
+    def __init__(self, reactions : str) -> None:
+        """
+        Initializes the ReactionGraph by parsing the provided reaction data and constructing the necessary graphs.
+
+        Parameters
+        ----------
+        reactions : str
+            Reactions formatted as a multiline string.
+        """
 
         self.reaction_dict = self.parse_reactions(reactions)
         self.metabolite_reaction_graph, self.metabolite_metabolite_graph, self.reaction_reaction_graph = self.ReactionGraphs()
 
-    def parse_reactions(self, reactions):
+    def parse_reactions(self, reactions : str) -> dict[str, str]:
         """
-        Parses the input reactions string into a dictionary.
+        Parses the input reactions into a dictionary mapping reaction IDs to reaction equations.
 
+        Parameters
+        ----------
+        reactions : str
+            A string of reactions separated by new lines.
+
+        Returns
+        -------
+        dict[str, str]
+            A dictionary with reaction IDs as keys and reaction equations as values.
         """
         reactions = reactions.strip().split("\n")
         reaction_dict = {}
@@ -26,12 +63,14 @@ class ReactionGraph:
 
         return reaction_dict
 
-    def ReactionGraphs(self):
+    def ReactionGraphs(self) -> tuple[dict[str, list[str]], dict[str, list[str]], dict[str, list[str]]]:
         """
-        Constructs the metabolite-reaction, metabolite-metabolite, and reaction-reaction graphs.
+        Constructs the metabolite-reaction, metabolite-metabolite, and reaction-reaction graphs based on the parsed reactions.
 
-        Returns a tuple containing three dictionaries representing the metabolite-reaction,
-            metabolite-metabolite, and reaction-reaction graphs.
+        Returns
+        -------
+        tuple
+            A tuple of three dictionaries, each representing a different type of graph.
         """
         met_reaction_graph = {}
         metabolite_set = set()
@@ -47,31 +86,26 @@ class ReactionGraph:
             reactants = reactants.split(" + ")
             products = products.split(" + ")
 
-            # Add to reaction set
             reaction_set.add(rec_id)
 
-            # Map reactants to reactions
             for reactant in reactants:
                 if reactant not in met_reaction_graph:
                     met_reaction_graph[reactant] = []
                 met_reaction_graph[reactant].append(rec_id)
                 metabolite_set.add(reactant)
 
-            # Map products to reactions
             for product in products:
                 if product not in met_reaction_graph:
                     met_reaction_graph[product] = []
                 met_reaction_graph[product].append(rec_id)
                 metabolite_set.add(product)
 
-            # Map reactions to products, and reactants if reversible
             if rec_id not in met_reaction_graph:
                 met_reaction_graph[rec_id] = []
             met_reaction_graph[rec_id].extend(products)
             if reversible:
                 met_reaction_graph[rec_id].extend(reactants)
 
-        # Create metabolite-metabolite graph
         metabolite_metabolite_graph = {met: [] for met in metabolite_set}
         for met in metabolite_set:
             reactions = [r for r in met_reaction_graph[met] if r.startswith("R")]
@@ -81,7 +115,6 @@ class ReactionGraph:
             connected_metabolites.discard(met)
             metabolite_metabolite_graph[met] = list(connected_metabolites)
 
-        # Create reaction-reaction graph
         reaction_reaction_graph = {r: [] for r in reaction_set}
         for r in reaction_set:
             connected_reactions = set()
@@ -93,7 +126,7 @@ class ReactionGraph:
 
         return met_reaction_graph, metabolite_metabolite_graph, reaction_reaction_graph
 
-    def print_ReactionGraphic(self):
+    def print_ReactionGraphic(self) -> None:
         """
         Prints the metabolite-reaction, metabolite-metabolite, and reaction-reaction graphs.
         """
@@ -117,7 +150,6 @@ class ReactionGraph:
 
 
 if __name__ == "__main__":
-    # Example
     reactions = """
     R1: M1 + M2 => M3
     R2: M3 <=> M4 + M5 + M6
