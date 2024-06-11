@@ -1,3 +1,5 @@
+import subprocess
+
 class BWT:
 
     """
@@ -369,3 +371,11 @@ if __name__ == "__main__":
     print()
 
     print(classe.procuraPadraoBWT(padrao))
+
+    print("Metricas de Codigo:")
+    print("\nMetrica cyclomatic complexity:")
+    print(subprocess.call(["radon","cc","BWT/BWT.py", "-s"]))
+    print("\nMetrica maintainability index:")
+    print(subprocess.call(["radon","mi","BWT/BWT.py", "-s"]))
+    print("\nMetrica raw:")
+    print(subprocess.call(["radon","raw","BWT/BWT.py", "-s"]))

@@ -1,5 +1,7 @@
 import graphviz
 from pprint import pprint
+import subprocess
+
 class Trees:
 
     """
@@ -200,3 +202,11 @@ if __name__ == "__main__":
     pprint(t.trie)
     G = t.vistaGrafica()
     G.view()
+
+    print("Metricas de Codigo:")
+    print("\nMetrica cyclomatic complexity:")
+    print(subprocess.call(["radon","cc","Procura Padrões/Tries.py", "-s"]))
+    print("\nMetrica maintainability index:")
+    print(subprocess.call(["radon","mi","Procura Padrões/Tries.py", "-s"]))
+    print("\nMetrica raw:")
+    print(subprocess.call(["radon","raw","Procura Padrões/Tries.py", "-s"]))

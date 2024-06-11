@@ -1,5 +1,5 @@
 from Popul import Popul
-
+import subprocess
 
 class EvolAlgorithm:
 
@@ -51,3 +51,10 @@ def test():
 
 if __name__ == "__main__":
     test()
+    print("Metricas de Codigo:")
+    print("\nMetrica cyclomatic complexity:")
+    print(subprocess.call(["radon","cc","EvolAlgorithm/EvolAlgorithm.py", "-s"]))
+    print("\nMetrica maintainability index:")
+    print(subprocess.call(["radon","mi","EvolAlgorithm/EvolAlgorithm.py", "-s"]))
+    print("\nMetrica raw:")
+    print(subprocess.call(["radon","raw","EvolAlgorithm/EvolAlgorithm.py", "-s"]))

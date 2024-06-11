@@ -1,7 +1,4 @@
-"""
-@author: miguelrocha
-"""
-
+import subprocess
 
 def createMatZeros(nl, nc):
     res = []
@@ -125,3 +122,10 @@ def test():
 
 if __name__ == '__main__':
     test()
+    print("Metricas de Codigo:")
+    print("\nMetrica cyclomatic complexity:")
+    print(subprocess.call(["radon","cc","EvolAlgorithm/MyMotifs.py", "-s"]))
+    print("\nMetrica maintainability index:")
+    print(subprocess.call(["radon","mi","EvolAlgorithm/MyMotifs.py", "-s"]))
+    print("\nMetrica raw:")
+    print(subprocess.call(["radon","raw","EvolAlgorithm/MyMotifs.py", "-s"]))

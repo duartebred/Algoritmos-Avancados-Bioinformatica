@@ -1,3 +1,4 @@
+import subprocess
 
 class Automata:
 
@@ -123,3 +124,12 @@ if __name__ == "__main__":
 
     posicoes_match = teste.posicoesMatch(sequencia)
     print(posicoes_match)
+
+    print("Metricas de Codigo:")
+    print("\nMetrica cyclomatic complexity:")
+    print(subprocess.call(["radon","cc","Procura Padrões/Automata.py", "-s"]))
+    print("\nMetrica maintainability index:")
+    print(subprocess.call(["radon","mi","Procura Padrões/Automata.py", "-s"]))
+    print("\nMetrica raw:")
+    print(subprocess.call(["radon","raw","Procura Padrões/Automata.py", "-s"]))
+

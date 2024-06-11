@@ -1,3 +1,5 @@
+import subprocess
+
 class MySeq:
 
     def __init__(self, seq, tipo="dna"):
@@ -263,3 +265,10 @@ def teste():
 
 if __name__ == "__main__":
     teste()
+    print("Metricas de Codigo:")
+    print("\nMetrica cyclomatic complexity:")
+    print(subprocess.call(["radon","cc","EvolAlgorithm/MySeq.py", "-s"]))
+    print("\nMetrica maintainability index:")
+    print(subprocess.call(["radon","mi","EvolAlgorithm/MySeq.py", "-s"]))
+    print("\nMetrica raw:")
+    print(subprocess.call(["radon","raw","EvolAlgorithm/MySeq.py", "-s"]))

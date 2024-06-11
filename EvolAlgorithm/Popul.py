@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-
+import subprocess
 from Indiv import Indiv, IndivInt, IndivReal
 from random import random
 
@@ -116,3 +115,12 @@ class PopulReal(Popul):
         for _ in range(self.popsize): 
             indiv_i = IndivReal(self.indsize, []) 
             self.indivs.append(indiv_i)
+
+if __name__ == "__main__":
+    print("Metricas de Codigo:")
+    print("\nMetrica cyclomatic complexity:")
+    print(subprocess.call(["radon","cc","EvolAlgorithm/Popul.py", "-s"]))
+    print("\nMetrica maintainability index:")
+    print(subprocess.call(["radon","mi","EvolAlgorithm/Popul.py", "-s"]))
+    print("\nMetrica raw:")
+    print(subprocess.call(["radon","raw","EvolAlgorithm/Popul.py", "-s"]))

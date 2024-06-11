@@ -2,6 +2,8 @@
 # t -> size of each sequence, all sequences have the same length
 # n -> number of sequences
 
+import subprocess
+
 
 class pwm:
     """
@@ -330,3 +332,11 @@ class Gibbs (pwm):
 if __name__ == "__main__":
     seqs = ['GTAAACAATATTTATAGC', 'AAAATTTACCTTAGAAGG', 'CCGTACTGTCAAGCGTGG', 'TGAGTAAACGACGTCCCA', 'TACTTAACACCCTGTCAA']
     print(Gibbs(seqs,8).gibbs_sampling())
+
+    print("Metricas de Codigo:")
+    print("\nMetrica cyclomatic complexity:")
+    print(subprocess.call(["radon","cc","Motifs/Gibbs_sampling.py", "-s"]))
+    print("\nMetrica maintainability index:")
+    print(subprocess.call(["radon","mi","Motifs/Gibbs_sampling.py", "-s"]))
+    print("\nMetrica raw:")
+    print(subprocess.call(["radon","raw","Motifs/Gibbs_sampling.py", "-s"]))

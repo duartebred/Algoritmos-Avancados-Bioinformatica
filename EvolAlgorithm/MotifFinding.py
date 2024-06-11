@@ -1,6 +1,6 @@
 from MySeq import MySeq
 from MyMotifs import MyMotifs
-
+import subprocess
 
 class MotifFinding:
 
@@ -174,62 +174,70 @@ class MotifFinding:
         return ind-1
 
 
-# tests
+if __name__ == "__main__":
 
-def test1():
-    sm = MotifFinding()
-    sm.readFile("exemploMotifs.txt", "dna")
-    sol = [25, 20, 2, 55, 59]
-    sa = sm.score(sol)
-    print(sa)
-    scm = sm.scoreMult(sol)
-    print(scm)
-
-
-def test2():
-    print("Test exhaustive:")
-    seq1 = MySeq("ATAGAGCTGA", "dna")
-    seq2 = MySeq("ACGTAGATGA", "dna")
-    seq3 = MySeq("AAGATAGGGG", "dna")
-    mf = MotifFinding(3, [seq1, seq2, seq3])
-    sol = mf.exhaustiveSearch()
-    print("Solution", sol)
-    print("Score: ", mf.score(sol))
-    print("Consensus:", mf.createMotifFromIndexes(sol).consensus())
-
-    print("Branch and Bound:")
-    sol2 = mf.branchAndBound()
-    print("Solution: ", sol2)
-    print("Score:", mf.score(sol2))
-    print("Consensus:", mf.createMotifFromIndexes(sol2).consensus())
-
-    print("Heuristic consensus: ")
-    sol1 = mf.heuristicConsensus()
-    print("Solution: ", sol1)
-    print("Score:", mf.score(sol1))
+    def test1():
+        sm = MotifFinding()
+        sm.readFile("exemploMotifs.txt", "dna")
+        sol = [25, 20, 2, 55, 59]
+        sa = sm.score(sol)
+        print(sa)
+        scm = sm.scoreMult(sol)
+        print(scm)
 
 
-def test3():
-    mf = MotifFinding()
-    mf.readFile("exemploMotifs.txt", "dna")
-    print("Branch and Bound:")
-    sol = mf.branchAndBound()
-    print("Solution: ", sol)
-    print("Score:", mf.score(sol))
-    print("Consensus:", mf.createMotifFromIndexes(sol).consensus())
+    def test2():
+        print("Test exhaustive:")
+        seq1 = MySeq("ATAGAGCTGA", "dna")
+        seq2 = MySeq("ACGTAGATGA", "dna")
+        seq3 = MySeq("AAGATAGGGG", "dna")
+        mf = MotifFinding(3, [seq1, seq2, seq3])
+        sol = mf.exhaustiveSearch()
+        print("Solution", sol)
+        print("Score: ", mf.score(sol))
+        print("Consensus:", mf.createMotifFromIndexes(sol).consensus())
+
+        print("Branch and Bound:")
+        sol2 = mf.branchAndBound()
+        print("Solution: ", sol2)
+        print("Score:", mf.score(sol2))
+        print("Consensus:", mf.createMotifFromIndexes(sol2).consensus())
+
+        print("Heuristic consensus: ")
+        sol1 = mf.heuristicConsensus()
+        print("Solution: ", sol1)
+        print("Score:", mf.score(sol1))
 
 
-def test4():
-    mf = MotifFinding()
-    mf.readFile("exemploMotifs.txt", "dna")
-    print("Heuristic stochastic")
-    sol = mf.heuristicStochastic()
-    print("Solution: ", sol)
-    print("Score:", mf.score(sol))
-    print("Score mult:", mf.scoreMult(sol))
-    print("Consensus:", mf.createMotifFromIndexes(sol).consensus())
+    def test3():
+        mf = MotifFinding()
+        mf.readFile("exemploMotifs.txt", "dna")
+        print("Branch and Bound:")
+        sol = mf.branchAndBound()
+        print("Solution: ", sol)
+        print("Score:", mf.score(sol))
+        print("Consensus:", mf.createMotifFromIndexes(sol).consensus())
 
-    sol2 = mf.gibbs(1000)
-    print("Score:", mf.score(sol2))
-    print("Score mult:", mf.scoreMult(sol2))
 
+    def test4():
+        mf = MotifFinding()
+        mf.readFile("exemploMotifs.txt", "dna")
+        print("Heuristic stochastic")
+        sol = mf.heuristicStochastic()
+        print("Solution: ", sol)
+        print("Score:", mf.score(sol))
+        print("Score mult:", mf.scoreMult(sol))
+        print("Consensus:", mf.createMotifFromIndexes(sol).consensus())
+
+        sol2 = mf.gibbs(1000)
+        print("Score:", mf.score(sol2))
+        print("Score mult:", mf.scoreMult(sol2))
+
+
+    print("Metricas de Codigo:")
+    print("\nMetrica cyclomatic complexity:")
+    print(subprocess.call(["radon","cc","EvolAlgorithm/EAMotifs.py", "-s"]))
+    print("\nMetrica maintainability index:")
+    print(subprocess.call(["radon","mi","EvolAlgorithm/EAMotifs.py", "-s"]))
+    print("\nMetrica raw:")
+    print(subprocess.call(["radon","raw","EvolAlgorithm/EAMotifs.py", "-s"]))

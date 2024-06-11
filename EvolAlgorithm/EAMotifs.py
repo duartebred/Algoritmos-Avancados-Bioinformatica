@@ -2,6 +2,7 @@ from EvolAlgorithm import EvolAlgorithm
 from Popul import PopulInt, PopulReal
 from MotifFinding import MotifFinding
 from MyMotifs import MyMotifs
+import subprocess
 
 
 def createMatZeros(nl, nc):
@@ -76,18 +77,27 @@ class EAMotifsReal(EvolAlgorithm):
     
 
     
-
-def test1():
-    ea = EAMotifsInt(100, 1000, 50, "EvolAlgorithm/exemploMotifs.txt")
-    ea.run()
-    ea.printBestSolution()
-
-
-def test2():
-    ea = EAMotifsReal(100, 2000, 50, "EvolAlgorithm/exemploMotifs.txt", 2)
-    ea.run()
-    ea.printBestSolution()
+if __name__ == "__main__":
+    def test1():
+        ea = EAMotifsInt(100, 1000, 50, "EvolAlgorithm/exemploMotifs.txt")
+        ea.run()
+        ea.printBestSolution()
 
 
-test1()
-# test2()
+    def test2():
+        ea = EAMotifsReal(100, 2000, 50, "EvolAlgorithm/exemploMotifs.txt", 2)
+        ea.run()
+        ea.printBestSolution()
+
+
+    test1()
+    # test2()
+
+
+    print("Metricas de Codigo:")
+    print("\nMetrica cyclomatic complexity:")
+    print(subprocess.call(["radon","cc","EvolAlgorithm/EAMotifs.py", "-s"]))
+    print("\nMetrica maintainability index:")
+    print(subprocess.call(["radon","mi","EvolAlgorithm/EAMotifs.py", "-s"]))
+    print("\nMetrica raw:")
+    print(subprocess.call(["radon","raw","EvolAlgorithm/EAMotifs.py", "-s"]))

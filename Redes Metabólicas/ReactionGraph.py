@@ -1,3 +1,5 @@
+import subprocess
+
 class ReactionGraph:
     """
     A class to represent and analyze given reactions reaction network.
@@ -113,13 +115,24 @@ class ReactionGraph:
             print(f"{key} -> {value}")
 
 
-# Example
-reactions = """
-R1: M1 + M2 => M3
-R2: M3 <=> M4 + M5 + M6
-R3: M5 => M7
-R4: M7 => M8
-"""
 
-reaction_graph = ReactionGraph(reactions)
-reaction_graph.print_ReactionGraphic()
+if __name__ == "__main__":
+    # Example
+    reactions = """
+    R1: M1 + M2 => M3
+    R2: M3 <=> M4 + M5 + M6
+    R3: M5 => M7
+    R4: M7 => M8
+    """
+
+    reaction_graph = ReactionGraph(reactions)
+    reaction_graph.print_ReactionGraphic()
+
+
+    print("Metricas de Codigo:")
+    print("\nMetrica cyclomatic complexity:")
+    print(subprocess.call(["radon","cc","Redes Metabólicas/ReactionGraph.py", "-s"]))
+    print("\nMetrica maintainability index:")
+    print(subprocess.call(["radon","mi","Redes Metabólicas/ReactionGraph.py", "-s"]))
+    print("\nMetrica raw:")
+    print(subprocess.call(["radon","raw","Redes Metabólicas/ReactionGraph.py", "-s"]))

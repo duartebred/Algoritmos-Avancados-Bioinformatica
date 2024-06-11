@@ -1,5 +1,5 @@
 from random import randint, random, shuffle
-
+import subprocess
 
 class Indiv:
 
@@ -128,3 +128,12 @@ class IndivReal(Indiv):
         s = len(self.genes) 
         pos = randint(0, s-1) 
         self.genes[pos] = random.uniform(self.lb, self.ub)
+
+if __name__ == "__main__":
+    print("Metricas de Codigo:")
+    print("\nMetrica cyclomatic complexity:")
+    print(subprocess.call(["radon","cc","EvolAlgorithm/Indiv.py", "-s"]))
+    print("\nMetrica maintainability index:")
+    print(subprocess.call(["radon","mi","EvolAlgorithm/Indiv.py", "-s"]))
+    print("\nMetrica raw:")
+    print(subprocess.call(["radon","raw","EvolAlgorithm/Indiv.py", "-s"]))
