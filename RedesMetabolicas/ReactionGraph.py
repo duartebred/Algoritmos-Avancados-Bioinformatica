@@ -1,166 +1,254 @@
 import subprocess
+import sys
+import os
+from graphviz import Digraph
 
-class ReactionGraph:
-    """
-    This class represents and analyzes a network of chemical reactions. It constructs three types of graphs:
-    metabolite-reaction, metabolite-metabolite, and reaction-reaction based on the reactions provided.
+caminho_grafos = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'Grafos')
+sys.path.append(caminho_grafos)
 
-    Parameters
-    ----------
-    reactions : str
-        A string containing multiple reactions, each one defined by a unique reaction ID followed by
-        the reaction equation separated by ": ". Reactions are separated by new lines.
+from Grafos import MyGraph
 
-    Attributes
-    ----------
-    reaction_dict : dict[str, str]
-        A dictionary where keys are reaction IDs and values are the corresponding reaction equations.
 
-    metabolite_reaction_graph : dict[str, list[str]]
-        A dictionary representing the graph of metabolites to reactions.
+class MetabolicNetwork(MyGraph):
+    def __init__(self, reactions : dict[str, dict[str, list[str]]]):
+        super().__init__()
+        self.reactions = reactions
 
-    metabolite_metabolite_graph : dict[str, list[str]]
-        A dictionary representing connections between metabolites based on shared reactions.
-
-    reaction_reaction_graph : dict[str, list[str]]
-        A dictionary showing connections between reactions that share common metabolites.
-    """
-
-    def __init__(self, reactions : str) -> None:
+    def metabolitos(self) -> list[str]:
         """
-        Initializes the ReactionGraph by parsing the provided reaction data and constructing the necessary graphs.
+        Retorna uma lista de todos os metabolitos únicos presentes nas reações, tanto consumidos quanto produzidos.
 
-        Parameters
-        ----------
-        reactions : str
-            Reactions formatted as a multiline string.
+        Returns:
+        List[str]: Lista ordenada de metabolitos únicos.
+        """
+        
+        todos_metabolitos = set()
+        for reacao in self.reactions.values():
+            todos_metabolitos.update(reacao['cons'])
+            todos_metabolitos.update(reacao['prod'])
+        return sorted(list(todos_metabolitos))
+
+    def consome(self, react: str) -> list[str]:
+        """
+        Retorna a lista de metabolitos consumidos por uma reação específica.
+
+        Args:
+        react (str): O identificador da reação.
+
+        Returns:
+        List[str]: Lista de metabolitos consumidos pela reação.
+        """
+        return self.reactions[react]['cons']
+
+    def produz(self, react: str) -> list[str]:
+        """
+        Retorna a lista de metabolitos produzidos por uma reação específica.
+
+        Args:
+        react (str): O identificador da reação.
+
+        Returns:
+        List[str]: Lista de metabolitos produzidos pela reação.
+        """
+        return self.reactions[react]['prod']
+
+    def consomem(self, met: str) -> list[str]:
+        """
+        Retorna uma lista de reações que consomem um metabolito específico.
+
+        Args:
+        met (str): O metabolito especificado.
+
+        Returns:
+        List[str]: Lista de reações que consomem o metabolito.
+        """
+        return [react for react, val in self.reactions.items() if met in val['cons']]
+
+    def produzem(self, met: str) -> list[str]:
+        """
+        Retorna uma lista de reações que produzem um metabolito específico.
+
+        Args:
+        met (str): O metabolito especificado.
+
+        Returns:
+        List[str]: Lista de reações que produzem o metabolito.
+        """
+        return [react for react, val in self.reactions.items() if met in val['prod']]
+
+    def mlig(self, met: str) -> list[str]:
+        """
+        Retorna uma lista de metabolitos que são produzidos por reações que consomem um metabolito específico.
+
+        Args:
+        met (str): Metabolito consumido.
+
+        Returns:
+        List[str]: Lista ordenada de novos metabolitos produzidos.
+        """
+        reacoes_consumidoras = self.consomem(met)
+        produtos = set()
+        for react in reacoes_consumidoras:
+            produtos.update(self.reactions[react]['prod'])
+        return sorted(list(produtos))
+
+    def rlig(self, react: str) -> list[str]:
+        """
+        Retorna uma lista de reações que consomem metabolitos produzidos pela reação especificada.
+
+        Args:
+        react (str): Identificador da reação de interesse.
+
+        Returns:
+        List[str]: Lista ordenada de reações que consomem os produtos da reação especificada.
+        """
+        produtos = set(self.produz(react))
+        reacoes_consomidoras = set()
+        for met in produtos:
+            reacoes_consomidoras.update(self.consomem(met))
+        return sorted(list(reacoes_consomidoras))
+    
+    def ativadas_por(self, *metabolitos: list[str]) -> list[str]:
+        """
+        Retorna uma lista de reações ativadas por um conjunto especificado de metabolitos. Uma reação é considerada ativada
+        se todos os seus metabolitos consumidos estão presentes no conjunto fornecido.
+
+        Args:
+        *metabolitos (List[str]): Lista de metabolitos que devem ativar as reações.
+
+        Returns:
+        List[str]: Lista de reações ativadas pelos metabolitos especificados.
+        """
+        metabolitos_set = set(metabolitos)
+        return [react for react, val in self.reactions.items() if set(val['cons']).issubset(metabolitos_set)]
+
+    def produzidos_por(self, *lista_reacoes: list[str]) -> list[str]:
+        """
+        Retorna uma lista de todos os metabolitos produzidos pelas reações especificadas.
+
+        Args:
+        *lista_reacoes (List[str]): Lista de identificadores de reações.
+
+        Returns:
+        List[str]: Lista ordenada de todos os metabolitos produzidos pelas reações especificadas.
+        """
+        produtos = set()
+        for react in lista_reacoes:
+            produtos.update(self.produz(react))
+        return sorted(list(produtos))
+    
+    def m_ativ(self, *metabolitos: list[str]) -> list[str]:
+        """
+        Retorna uma lista de todos os metabolitos resultantes de reações ativadas por uma lista inicial de metabolitos.
+        A função considera reações adicionais que podem ser ativadas pelos produtos das reações iniciais.
+
+        Args:
+        *metabolitos (List[str]): Lista inicial de metabolitos.
+
+        Returns:
+        List[str]: Lista ordenada de todos os metabolitos resultantes das reações ativadas.
         """
 
-        self.reaction_dict = self.parse_reactions(reactions)
-        self.metabolite_reaction_graph, self.metabolite_metabolite_graph, self.reaction_reaction_graph = self.ReactionGraphs()
+        if not metabolitos or not all(isinstance(m, str) for m in metabolitos):
+            return []
+        metabolitos_ativos = set(metabolitos)
+        ativados = set()
+        while True:
+            novas_reacoes = set(self.r_ativ(*metabolitos_ativos)) - ativados
+            if not novas_reacoes:
+                break
+            ativados.update(novas_reacoes)
+            for react in novas_reacoes:
+                metabolitos_ativos.update(self.produz(react))
+        return sorted(list(metabolitos_ativos))
 
-    def parse_reactions(self, reactions : str) -> dict[str, str]:
+    def r_ativ(self, *metabolitos: list[str]) -> list[str]:
         """
-        Parses the input reactions into a dictionary mapping reaction IDs to reaction equations.
+        Retorna uma lista total de todas as reações ativadas por uma lista inicial de metabolitos.
+        A função itera até que nenhuma nova reação possa ser ativada pelos produtos das reações ativadas anteriormente.
 
-        Parameters
-        ----------
-        reactions : str
-            A string of reactions separated by new lines.
+        Args:
+        *metabolitos (List[str]): Lista inicial de metabolitos.
 
-        Returns
-        -------
-        dict[str, str]
-            A dictionary with reaction IDs as keys and reaction equations as values.
+        Returns:
+        List[str]: Lista de todas as reações ativadas diretamente ou indiretamente pelos metabolitos especificados.
         """
-        reactions = reactions.strip().split("\n")
-        reaction_dict = {}
+        if not metabolitos or not all(isinstance(m, str) for m in metabolitos):
+            return []
+        ativadas = set()
+        novos_metabolitos = set(metabolitos)
+        while True:
+            novas_ativadas = set(self.ativadas_por(*novos_metabolitos)) - ativadas
+            if not novas_ativadas:
+                break
+            ativadas.update(novas_ativadas)
+            for react in novas_ativadas:
+                novos_metabolitos.update(self.produz(react))
+        return sorted(ativadas)
+    
+    def visualize_network(self):
+        dot = Digraph(comment='Metabolic Network')
 
-        for reaction in reactions:
-            parts = reaction.split(": ")
-            rec_id = parts[0]
-            reaction_dict[rec_id] = parts[1]
+        for react in self.reactions:
+            dot.node(react, react, shape='box', color='lightblue2', style='filled')
+            for met in self.reactions[react]['cons']:
+                dot.node(met, met, shape='ellipse', color='grey', style='filled')
+                dot.edge(met, react, color='red')  
+            for met in self.reactions[react]['prod']:
+                dot.node(met, met, shape='ellipse', color='grey', style='filled')
+                dot.edge(react, met, color='green')  
 
-        return reaction_dict
+        dot.render('output/metabolic_network.gv', view=True)
 
-    def ReactionGraphs(self) -> tuple[dict[str, list[str]], dict[str, list[str]], dict[str, list[str]]]:
-        """
-        Constructs the metabolite-reaction, metabolite-metabolite, and reaction-reaction graphs based on the parsed reactions.
+        return dot
 
-        Returns
-        -------
-        tuple
-            A tuple of three dictionaries, each representing a different type of graph.
-        """
-        met_reaction_graph = {}
-        metabolite_set = set()
-        reaction_set = set()
+def main():
+    reactions = {
+        'R01': {'cons': ['M03', 'M05'], 'prod': ['M07']},
+        'R02': {'cons': ['M04', 'M05'], 'prod': ['M07', 'M02']},
+        'R03': {'cons': ['M08', 'M07', 'M02'], 'prod': ['M04', 'M05']},
+        'R04': {'cons': ['M03', 'M04'], 'prod': ['M01']},
+        'R05': {'cons': ['M05', 'M08'], 'prod': ['M01', 'M04']},
+        'R06': {'cons': ['M08', 'M07'], 'prod': ['M01', 'M05']},
+        'R07': {'cons': ['M03', 'M07'], 'prod': ['M06', 'M01']},
+        'R08': {'cons': ['M01', 'M05'], 'prod': ['M02', 'M08']},
+        'R09': {'cons': ['M07', 'M06'], 'prod': ['M04', 'M08']},
+        'R10': {'cons': ['M03', 'M05', 'M04'], 'prod': ['M08', 'M02']}
+    }
 
-        for rec_id, equation in self.reaction_dict.items():
-            if " <=> " in equation:
-                reactants, products = equation.split(" <=> ")
-                reversible = True
-            elif " => " in equation:
-                reactants, products = equation.split(" => ")
-                reversible = False
-            reactants = reactants.split(" + ")
-            products = products.split(" + ")
+    network = MetabolicNetwork(reactions)
 
-            reaction_set.add(rec_id)
+    commands = [
+        ("consomem M02", network.consomem("M02")),
+        ("produzem M02", network.produzem("M02")),
+        ("consomem M03", network.consomem("M03")),
+        ("produz R10", network.produz("R10")),
+        ("consome R10", network.consome("R10")),
+        ("mlig M01", network.mlig("M01")),
+        ("mlig M02", network.mlig("M02")),
+        ("rlig R01", network.rlig("R01")),
+        ("rlig R03", network.rlig("R03")),
+        ("ativadas_por M03 M04", network.ativadas_por("M03", "M04")),
+        ("ativadas_por M03 M05", network.ativadas_por("M03", "M05")),
+        ("ativadas_por M04 M05", network.ativadas_por("M04", "M05")),
+        ("ativadas_por M03 M04 M05", network.ativadas_por("M03", "M04", "M05")),
+        ("produzidos_por R01 R02", network.produzidos_por("R01", "R02")),
+        ("r_ativ M01 M05", network.r_ativ("M01", "M05")),
+        ("r_ativ M03 M05", network.r_ativ("M03", "M05")),
+        ("r_ativ M04 M05", network.r_ativ("M04", "M05")),
+        ("m_ativ M01 M05", network.m_ativ("M01", "M05"))
+    ]
 
-            for reactant in reactants:
-                if reactant not in met_reaction_graph:
-                    met_reaction_graph[reactant] = []
-                met_reaction_graph[reactant].append(rec_id)
-                metabolite_set.add(reactant)
-
-            for product in products:
-                if product not in met_reaction_graph:
-                    met_reaction_graph[product] = []
-                met_reaction_graph[product].append(rec_id)
-                metabolite_set.add(product)
-
-            if rec_id not in met_reaction_graph:
-                met_reaction_graph[rec_id] = []
-            met_reaction_graph[rec_id].extend(products)
-            if reversible:
-                met_reaction_graph[rec_id].extend(reactants)
-
-        metabolite_metabolite_graph = {met: [] for met in metabolite_set}
-        for met in metabolite_set:
-            reactions = [r for r in met_reaction_graph[met] if r.startswith("R")]
-            connected_metabolites = set()
-            for r in reactions:
-                connected_metabolites.update(met_reaction_graph[r])
-            connected_metabolites.discard(met)
-            metabolite_metabolite_graph[met] = list(connected_metabolites)
-
-        reaction_reaction_graph = {r: [] for r in reaction_set}
-        for r in reaction_set:
-            connected_reactions = set()
-            for met in met_reaction_graph[r]:
-                if met in met_reaction_graph:
-                    connected_reactions.update([nr for nr in met_reaction_graph[met] if nr.startswith("R")])
-            connected_reactions.discard(r)
-            reaction_reaction_graph[r] = list(connected_reactions)
-
-        return met_reaction_graph, metabolite_metabolite_graph, reaction_reaction_graph
-
-    def print_ReactionGraphic(self) -> None:
-        """
-        Prints the metabolite-reaction, metabolite-metabolite, and reaction-reaction graphs.
-        """
-        metabolites = sorted([m for m in self.metabolite_reaction_graph if not m.startswith("R")])
-        reactions = sorted([r for r in self.metabolite_reaction_graph if r.startswith("R")])
-
-        print("Metabolite-Reaction Graph:")
-        for key, value in self.metabolite_reaction_graph.items():
-            print(f"{key} -> {value}")
-        print("Reactions:", reactions)
-        print("Metabolites:", metabolites)
-
-        print("\nMetabolite-Metabolite Graph:")
-        for key, value in self.metabolite_metabolite_graph.items():
-            print(f"{key} -> {value}")
-
-        print("\nReaction-Reaction Graph:")
-        for key, value in self.reaction_reaction_graph.items():
-            print(f"{key} -> {value}")
+    for i, (label, result) in enumerate(commands, 1):
+        print(f"[{i}] ({label}) > {', '.join(result)}")
 
 
+    network = MetabolicNetwork(reactions)
+    network.id_graph()  
+    network.visualize_network()
 
 if __name__ == "__main__":
-    reactions = """
-    R1: M1 + M2 => M3
-    R2: M3 <=> M4 + M5 + M6
-    R3: M5 => M7
-    R4: M7 => M8
-    """
-
-    reaction_graph = ReactionGraph(reactions)
-    reaction_graph.print_ReactionGraphic()
-
-
+    main()
     print("Metricas de Codigo:")
     print("\nMetrica cyclomatic complexity:")
     print(subprocess.call(["radon","cc","RedesMetabolicas/ReactionGraph.py", "-s"]))
@@ -168,3 +256,4 @@ if __name__ == "__main__":
     print(subprocess.call(["radon","mi","RedesMetabolicas/ReactionGraph.py", "-s"]))
     print("\nMetrica raw:")
     print(subprocess.call(["radon","raw","RedesMetabolicas/ReactionGraph.py", "-s"]))
+
