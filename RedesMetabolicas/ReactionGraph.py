@@ -1,3 +1,12 @@
+"""
+Autor: Duarte Velho
+
+Implementação do algotitmo de Redes biológicas
+Código escrito por Duarte velho com auxílio de João Ferreira
+
+Documentação e type hiting gerada por Duarte Velho
+"""
+
 import subprocess
 import sys
 import os
