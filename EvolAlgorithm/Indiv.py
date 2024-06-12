@@ -11,9 +11,6 @@ class Indiv:
         if not self.genes:
             self.initRandom(size)
 
-    # comparadores.
-    # Permitem usar sorted, max, min
-
     def __eq__(self, solution):
         if isinstance(solution, self.__class__):
             return self.genes.sort() == solution.genes.sort()

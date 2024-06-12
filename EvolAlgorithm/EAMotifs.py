@@ -31,6 +31,7 @@ class EAMotifsInt (EvolAlgorithm):
         self.popul = PopulInt(self.popsize, indsize,
                               maxvalue, [])
 
+
     def evaluate(self, indivs):
         for i in range(len(indivs)):
             ind = indivs[i]
@@ -39,15 +40,6 @@ class EAMotifsInt (EvolAlgorithm):
             ind.setFitness(fit)
 
 
-
-'''
-Em seguida deverá criar uma classe que estende a classe 
-EvolAlgorithm e que redefine o construtor, o método initPopul e 
-o método evaluate 
-• Note que, neste caso, o tamanho do indivíduo deverá ser: L x A, 
-onde L é o tamanho do motif e A é o nº de símbolos do alfabeto
-
-'''
 class EAMotifsReal(EvolAlgorithm):
     def _init_(self, popsize, numits, noffspring, filename):
 
@@ -55,6 +47,7 @@ class EAMotifsReal(EvolAlgorithm):
         self.motifs.readFile(filename, "dna")
         indsize = self.motifs.motifSize * len(self.motifs.alphabet)
         EvolAlgorithm._init_(self, popsize, numits, noffspring, indsize)
+
 
     def initPopul(self, motSize, nSymb): 
         self.popul = PopulReal(self.popsize, motSize*nSymb)
@@ -76,7 +69,6 @@ class EAMotifsReal(EvolAlgorithm):
             ind.setFitness(fit)
     
 
-    
 if __name__ == "__main__":
     def test1():
         ea = EAMotifsInt(100, 1000, 50, "EvolAlgorithm/exemploMotifs.txt")
@@ -89,11 +81,9 @@ if __name__ == "__main__":
         ea.run()
         ea.printBestSolution()
 
-
     test1()
-    # test2()
-
-
+    test2()
+    
     print("Metricas de Codigo:")
     print("\nMetrica cyclomatic complexity:")
     print(subprocess.call(["radon","cc","EvolAlgorithm/EAMotifs.py", "-s"]))
