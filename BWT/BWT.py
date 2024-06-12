@@ -112,8 +112,6 @@ class BWT:
         return "".join([linha[-1] for linha in self.matrix_ord])
 
 
-
-
     def ocorrencias(self,seq:str)->list[str]:
         """
         Counts the occurrences of each character in the given sequence and returns a list of strings.
