@@ -1,5 +1,5 @@
 import unittest
-from Automata import Automata
+from automatos_finitos import Automata
 
 
 class TestAutomata(unittest.TestCase):
