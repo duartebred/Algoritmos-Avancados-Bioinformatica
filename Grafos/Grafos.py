@@ -1,3 +1,12 @@
+"""
+Autor: Joana Lopes
+
+Implementação do algotitmo de Grafos
+Código escrito por Joana Lopes que teve por código base, o retirado dos powerpoints das aulas (autoria de Miguel Rocha)
+
+Documentação e type hiting gerada por Duarte Velho e Joana Lopes
+"""
+
 import subprocess
 
 ## Graph represented as adjacency list using a dictionary
