@@ -1,5 +1,13 @@
-import random; import subprocess
+"""
+Autor: Ricardo Oliveira
 
+Implementação do algotitmo de Computação evolucionária
+Código escrito por Ricardo Oliveira 
+
+Documentação e type hiting gerada por Ricardo Oliveira
+"""
+
+import random; import subprocess
 
 class ea_motif_finder:
     def __init__(self, sequences: list[str], motif_length:int, sequence_type:str='DNA', population_size:int=100, generations:int=500, mutation_rate:float=0.01):
