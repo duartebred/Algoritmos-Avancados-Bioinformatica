@@ -1,3 +1,12 @@
+"""
+Autor: Ricardo Oliveira
+
+Implementação do algotitmo de Motifs: Gibbs sampling
+Código escrito por Ricardo Oliveira com auxílio de Duarte Velho
+
+Documentação e type hiting gerada por Ricardo Oliveira
+"""
+
 # w-> window size of the motif
 # t -> size of each sequence, all sequences have the same length
 # n -> number of sequences
