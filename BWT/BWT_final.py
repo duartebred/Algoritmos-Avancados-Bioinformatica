@@ -60,6 +60,11 @@ class BWT:
         ---------
         list[str]:
             A sorted matrix of strings representing all rotations of the original sequence.
+        
+        Raises:
+        ---------
+        AssertionError:
+            If the input sequence is not a string.
         """
         
         assert isinstance(self.seq_original,str),"The input sequence must be a string"
