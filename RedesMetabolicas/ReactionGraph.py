@@ -16,10 +16,12 @@ class MetabolicNetwork(MyGraph):
 
     def metabolitos(self) -> list[str]:
         """
-        Retorna uma lista de todos os metabolitos únicos presentes nas reações, tanto consumidos quanto produzidos.
+        Returns a list of all the unique metabolites present in the reactions, both consumed and produced.
 
-        Returns:
-        List[str]: Lista ordenada de metabolitos únicos.
+        Returns
+        -------
+        List[str]
+            Ordered list of unique metabolites.
         """
         
         todos_metabolitos = set()
@@ -30,61 +32,81 @@ class MetabolicNetwork(MyGraph):
 
     def consome(self, react: str) -> list[str]:
         """
-        Retorna a lista de metabolitos consumidos por uma reação específica.
+        Returns the list of metabolites consumed by a specific reaction.
 
-        Args:
-        react (str): O identificador da reação.
+        Parameters
+        ----------
+        react : str 
+            The reaction identifier.
 
-        Returns:
-        List[str]: Lista de metabolitos consumidos pela reação.
+        Returns
+        -------
+        List[str]
+            List of metabolites consumed by the reaction.
         """
         return self.reactions[react]['cons']
 
     def produz(self, react: str) -> list[str]:
         """
-        Retorna a lista de metabolitos produzidos por uma reação específica.
+        Returns the list of metabolites produced by a specific reaction.
 
-        Args:
-        react (str): O identificador da reação.
+        Parameters
+        ----------
+        react : str
+            The reaction identifier.
 
-        Returns:
-        List[str]: Lista de metabolitos produzidos pela reação.
+        Returns
+        -------
+        List[str] 
+            List of metabolites produced by the reaction.
         """
         return self.reactions[react]['prod']
 
     def consomem(self, met: str) -> list[str]:
         """
-        Retorna uma lista de reações que consomem um metabolito específico.
+        Returns a list of reactions that consume a specific metabolite.
 
-        Args:
-        met (str): O metabolito especificado.
+        Parameters
+        ----------
+        met : str
+            The specified metabolite.
 
-        Returns:
-        List[str]: Lista de reações que consomem o metabolito.
+        Returns
+        -------
+        List[str]
+            List of reactions that consume the metabolite.
         """
         return [react for react, val in self.reactions.items() if met in val['cons']]
 
     def produzem(self, met: str) -> list[str]:
         """
-        Retorna uma lista de reações que produzem um metabolito específico.
+        Returns a list of reactions that produce a specific metabolite.
 
-        Args:
-        met (str): O metabolito especificado.
+        Parameters
+        ----------
+        met : str
+            The specified metabolite.
 
-        Returns:
-        List[str]: Lista de reações que produzem o metabolito.
+        Returns
+        -------
+        List[str] 
+            List of reactions that produce the metabolite.
         """
         return [react for react, val in self.reactions.items() if met in val['prod']]
 
     def mlig(self, met: str) -> list[str]:
         """
-        Retorna uma lista de metabolitos que são produzidos por reações que consomem um metabolito específico.
+        Returns a list of metabolites that are produced by reactions that consume a specific metabolite.
 
-        Args:
-        met (str): Metabolito consumido.
+        Parameters
+        ----------
+        met : str
+            Metabolite consumed.
 
-        Returns:
-        List[str]: Lista ordenada de novos metabolitos produzidos.
+        Returns
+        -------
+        List[str]
+            Ordered list of new metabolites produced.
         """
         reacoes_consumidoras = self.consomem(met)
         produtos = set()
@@ -94,13 +116,17 @@ class MetabolicNetwork(MyGraph):
 
     def rlig(self, react: str) -> list[str]:
         """
-        Retorna uma lista de reações que consomem metabolitos produzidos pela reação especificada.
+        Returns a list of reactions that consume metabolites produced by the specified reaction.
 
-        Args:
-        react (str): Identificador da reação de interesse.
+        Parameters
+        ----------
+        react : str
+            Identifier of the reaction of interest.
 
-        Returns:
-        List[str]: Lista ordenada de reações que consomem os produtos da reação especificada.
+        Returns
+        -------
+        List[str]
+            Ordered list of reactions that consume the products of the specified reaction.
         """
         produtos = set(self.produz(react))
         reacoes_consomidoras = set()
@@ -110,27 +136,35 @@ class MetabolicNetwork(MyGraph):
     
     def ativadas_por(self, *metabolitos: list[str]) -> list[str]:
         """
-        Retorna uma lista de reações ativadas por um conjunto especificado de metabolitos. Uma reação é considerada ativada
-        se todos os seus metabolitos consumidos estão presentes no conjunto fornecido.
+        Returns a list of reactions activated by a specified set of metabolites. 
+        A reaction is considered activated if all its consumed metabolites are present in the given set.
 
-        Args:
-        *metabolitos (List[str]): Lista de metabolitos que devem ativar as reações.
+        Parameters
+        ----------
+        *metabolitos : List[str]
+            List of metabolites that should activate the reactions.
 
-        Returns:
-        List[str]: Lista de reações ativadas pelos metabolitos especificados.
+        Returns
+        -------
+        List[str]
+            List of reactions activated by the specified metabolites.
         """
         metabolitos_set = set(metabolitos)
         return [react for react, val in self.reactions.items() if set(val['cons']).issubset(metabolitos_set)]
 
     def produzidos_por(self, *lista_reacoes: list[str]) -> list[str]:
         """
-        Retorna uma lista de todos os metabolitos produzidos pelas reações especificadas.
+        Returns a list of all the metabolites produced by the specified reactions.
 
-        Args:
-        *lista_reacoes (List[str]): Lista de identificadores de reações.
+        Parameters
+        ----------
+        *lista_reacoes : List[str])
+            List of reaction identifiers.
 
-        Returns:
-        List[str]: Lista ordenada de todos os metabolitos produzidos pelas reações especificadas.
+        Returns
+        -------
+        List[str]
+            Ordered list of all the metabolites produced by the specified reactions.
         """
         produtos = set()
         for react in lista_reacoes:
@@ -139,14 +173,18 @@ class MetabolicNetwork(MyGraph):
     
     def m_ativ(self, *metabolitos: list[str]) -> list[str]:
         """
-        Retorna uma lista de todos os metabolitos resultantes de reações ativadas por uma lista inicial de metabolitos.
-        A função considera reações adicionais que podem ser ativadas pelos produtos das reações iniciais.
+        Returns a list of all metabolites resulting from reactions activated by an initial list of metabolites.
+        The function takes into account additional reactions that can be activated by the products of the initial reactions.
 
-        Args:
-        *metabolitos (List[str]): Lista inicial de metabolitos.
+        Parameters
+        ----------
+        *metabolitos : List[str]
+            Initial list of metabolites.
 
-        Returns:
-        List[str]: Lista ordenada de todos os metabolitos resultantes das reações ativadas.
+        Returns
+        -------
+        List[str]
+            Ordered list of all metabolites resulting from activated reactions.
         """
 
         if not metabolitos or not all(isinstance(m, str) for m in metabolitos):
@@ -164,14 +202,18 @@ class MetabolicNetwork(MyGraph):
 
     def r_ativ(self, *metabolitos: list[str]) -> list[str]:
         """
-        Retorna uma lista total de todas as reações ativadas por uma lista inicial de metabolitos.
-        A função itera até que nenhuma nova reação possa ser ativada pelos produtos das reações ativadas anteriormente.
+        Returns a total list of all the reactions activated by an initial list of metabolites.
+        The function iterates until no new reactions can be activated by the products of previously activated reactions.
 
-        Args:
-        *metabolitos (List[str]): Lista inicial de metabolitos.
+        Parameters
+        ----------
+        *metabolitos : List[str] 
+            Initial list of metabolites.
 
-        Returns:
-        List[str]: Lista de todas as reações ativadas diretamente ou indiretamente pelos metabolitos especificados.
+        Returns
+        -------
+        List[str]
+            List of all the reactions activated directly or indirectly by the specified metabolites.
         """
         if not metabolitos or not all(isinstance(m, str) for m in metabolitos):
             return []
@@ -186,7 +228,20 @@ class MetabolicNetwork(MyGraph):
                 novos_metabolitos.update(self.produz(react))
         return sorted(ativadas)
     
-    def visualize_network(self):
+    def visualize_network(self) -> None:
+        """
+        It visualizes the metabolic network as a directed graph, where reactions are represented as boxes and 
+        metabolites as ellipses. Consumption connections are shown in red, while production connections are shown in green.
+
+        Parameters
+        ----------
+        self
+
+        Returns
+        -------
+        None
+            The function creates a graphic visualization file and opens the generated visualization in a suitable viewer.
+        """
         dot = Digraph(comment='Metabolic Network')
 
         for react in self.reactions:
