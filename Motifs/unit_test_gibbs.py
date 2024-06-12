@@ -206,10 +206,51 @@ class Test_pwm_gibss_sampling(unittest.TestCase):
 
 
 class Test_gibbs(unittest.TestCase):
+    def test_new_seqs_valid_inputs(self):
+        gibbs = Gibbs(list_seqs=['ATGCGTA', 'CTAGTCA', 'GACTGTC'], w=3)
+        pos = [1, 2, 0]
+        seq_idx = 1
+        expected_novas_seqs = ['TGC', 'GAC']
+        expected_seq_excluded = 'CTAGTCA'
+        self.assertEqual(gibbs.new_seqs(pos, seq_idx), (expected_novas_seqs, expected_seq_excluded))
 
-    def test_new_seqs(self):
-        pass
+    def test_new_seqs_invalid_positions(self):
+        gibbs = Gibbs(list_seqs=['ATGCGTA', 'CTAGTCA', 'GACTGTC'], w=3)
+        pos = '1, 2, 0'
+        seq_idx = 1
+        with self.assertRaises(AssertionError):
+            gibbs.new_seqs(pos, seq_idx)
 
+    def test_new_seqs_invalid_seq_idx(self):
+        gibbs = Gibbs(list_seqs=['ATGCGTA', 'CTAGTCA', 'GACTGTC'], w=3)
+        pos = [1, 2, 0]
+        seq_idx = '1'
+        with self.assertRaises(AssertionError):
+            gibbs.new_seqs(pos, seq_idx)
+    
+    def test_new_seqs_different_lengths(self):
+        gibbs = Gibbs(list_seqs=['ATGCGTA', 'CTAGTCA', 'GACTGTC'], w=3)
+        pos = [1, 2]
+        seq_idx = 1
+        with self.assertRaises(AssertionError):
+            gibbs.new_seqs(pos, seq_idx)
+    
+    def test_new_seqs_empty_seqs(self):
+        gibbs = Gibbs(list_seqs=[], w=3)
+        pos = [1, 2, 0]
+        seq_idx = 1
+        with self.assertRaises(AssertionError):
+            gibbs.new_seqs(pos, seq_idx)
+    
+    def test_score_different_nucleotides(self):
+        gibbs = Gibbs(list_seqs=['ATGCGT', 'ATTGCT', 'ATCGCT'], w=3)
+        positions = [0, 0, 0]
+        self.assertEqual(gibbs.score(positions), 7)
+    
+    def test_score_multiple_sequences_and_different_nucleotides(self):
+        gibbs = Gibbs(list_seqs=['ATGCGT', 'ATTGCT', 'ATCGCT'], w=4)
+        positions = [0, 1, 2]
+        self.assertEqual(gibbs.score(positions), 7)
 
 if __name__ == '__main__':
     unittest.main()
