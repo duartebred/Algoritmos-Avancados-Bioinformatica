@@ -1,3 +1,12 @@
+"""
+Autor: Duarte Velho
+
+Implementação do algotitmo de Procura de padrões: Tries
+Código escrito por Duarte Velho com auxílio de André Ramos
+
+Documentação e type hiting gerada por Duarte Velho
+"""
+
 import graphviz
 from pprint import pprint
 import subprocess

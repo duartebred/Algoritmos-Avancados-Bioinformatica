@@ -1,3 +1,12 @@
+"""
+Autor: Duarte Velho e André Ramos
+
+Implementação do algotitmo de Procura de padrões: Autómatos finitos
+Código escrito por Duarte Velho e André Ramos
+
+Documentação e type hiting gerada por Duarte Velho
+"""
+
 import subprocess
 
 class Automata:

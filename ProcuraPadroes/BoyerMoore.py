@@ -1,3 +1,12 @@
+"""
+Autor: Duarte Velho
+
+Implementação do algotitmo de Procura de padrões: Boyer Moore
+Código escrito por Duarte Velho com apoio dos ppts das aulas lecionadas pelo docente Rui Mendes
+
+Documentação e type hiting gerada por Duarte Velho
+"""
+
 import subprocess
 
 class BoyerMoore:

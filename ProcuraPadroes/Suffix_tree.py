@@ -1,3 +1,12 @@
+"""
+Autor: Duarte Velho
+
+Implementação do algotitmo de Procura de padrões: Árvores de sufixos
+Código escrito por Duarte Velho
+
+Documentação e type hiting gerada por Duarte Velho
+"""
+
 import subprocess
 
 class SuffixTree:
