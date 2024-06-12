@@ -11,6 +11,12 @@ class Test_ea_motif_finder(unittest.TestCase):
             "ATGCATGCATGCATGCAT",
             "TGCATGCGTACGTGCTAG"
         ]
+        self.invalid_dna_sequences = [
+            "ATGC",
+            "GZAT",
+            "CATG",
+            "ATGC"
+        ]
         self.protein_sequences = [
             "MVLSEGEWQLVLHVWAKV",
             "KVLSEGEWQLVHVWAKVE",
@@ -41,7 +47,7 @@ class Test_ea_motif_finder(unittest.TestCase):
             self.assertTrue(any(motif in seq for seq in self.dna_sequences))
 
     def test_protein_sequences(self):
-        ga_motif_finder = ea_motif_finder(self.protein_sequences, self.motif_length, generations=100)
+        ga_motif_finder = ea_motif_finder(self.protein_sequences, self.motif_length, generations=100, sequence_type="PROTEIN")
         best_motifs, consensus = ga_motif_finder.run()
         self.assertEqual(len(consensus), self.motif_length)
         for motif in best_motifs:
@@ -68,6 +74,15 @@ class Test_ea_motif_finder(unittest.TestCase):
         self.assertEqual(len(consensus), self.motif_length)
         for motif in best_motifs:
             self.assertTrue(any(motif in seq for seq in different_length_sequences))
+
+    def test_invalid_dna_sequences(self):
+        with self.assertRaises(ValueError):
+            ea_motif_finder(self.invalid_dna_sequences, self.motif_length, sequence_type='DNA')
+
+    def test_motif_length_too_long(self):
+        with self.assertRaises(ValueError):
+            ea_motif_finder(self.short_dna_sequences, 10, sequence_type='DNA')
+
 
 if __name__ == '__main__':
     unittest.main()
