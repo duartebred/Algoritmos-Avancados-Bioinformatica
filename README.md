@@ -18,7 +18,7 @@ Repositório criado por:
 - Redes biológicas
 
 <div align="justify">
-Este repositório foi criado no ambito da UC Algoritmos Avançados para a Bioinformática (2023/24), do Mestrado em Bioinformática da Escola de Engenharia da Universidade do Minho, e tem como objetivo reunir os scripts e notebooks construídos ao longo da realização do trabalho. 
+Este repositório foi criado no ambito da UC Algoritmos Avançados para a Bioinformática (2023/24), do Mestrado em Bioinformática da Escola de Engenharia da Universidade do Minho, e tem como objetivo reunir os scripts construídos ao longo da realização do trabalho. 
 Neste repositório são apresentadas as implementações dos algoritmos leccionados no âmbito da UC. No código presente neste portfólio, encontra-se a documentação do código, Type hinting, Unit tests e todas as fontes onde se foi buscar código.
 
 Este repositório destaca-se pela originalidade e a autoria do código escrito.
