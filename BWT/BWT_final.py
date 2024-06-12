@@ -114,7 +114,7 @@ class BWT:
         list[str]:
             A list of strings representing the occurrences of each character in the sequence.
         """
-
+        assert len(seq) != 0, "The input sequence must be non-empty."
         maximo = len(str(max([seq.count(elem) for elem in set(seq)])))
         counts = {elem:0 for elem in set(seq)}
         res = []
@@ -252,6 +252,9 @@ if __name__ == "__main__":
 
     print(f"\nDecoding BWT: {bwt}")
     print(BWT(bwt,encoded=True).obter_seq_original())
+
+    print("\nOcorrence of each element in the BWT:")
+    print(BWT("AAAAAAAAAAAAAAAAAAAAABBBCD$",encoded=True).ocorrencias("AAAAAAAAAAAAAAAAAAAAABBBCD$"))
 
     print("\nRestoring the original sequence after being encoded")
     print(BWT(seq,encoded=False).obter_seq_original())
