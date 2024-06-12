@@ -1,3 +1,13 @@
+"""
+Autor: Ricardo Oliveira
+
+Implementação do algotitmo de Alinhamentos contra referências (BWTs)
+Código escrito por Ricardo Oliveira com auxílio de André Ramos e Duarte Velho
+
+Documentação e type hiting gerada por Ricardo Oliveira
+"""
+
+
 import subprocess; import re
 
 def imprimir_matriz(matriz : list[str]) -> None:
